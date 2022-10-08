@@ -19,6 +19,28 @@ typedef struct SDL_Rectf
 
 };
 
+class Enemy {
+public:
+    SDL_Rectf Rect;
+    bool GunActive = false;
+    int GunDelay;
+    int HP = 100;
+    VECTOR GunVector = { 0 };
+
+};
+class EnemyBullet {
+public:
+    SDL_Rectf Rect;
+    bool Active = false;
+    float Speed = 5;
+    double VectorLength = 0;
+    VECTOR Vecter = { 0 };
+
+
+};
+
+
+
 VECTOR AddVector(VECTOR a, VECTOR b)
 {
 
@@ -90,12 +112,15 @@ SDL_Texture* texture = NULL;
 SDL_Texture* bultexture = NULL;
 SDL_Rectf Position;
 SDL_Rectf bulletR[20];
+
+Enemy enemy[20];
 SDL_Rectf ebulletR[2000];
+EnemyBullet enemyBullet[2000];
 SDL_Rectf enemyR[20];
 VECTOR eBulV[20];
 
 bool eBulA[2000] = { false };
-double eBulVL = 0;
+double vectorLength = 0;
 double eBulVX[2000] = { 0 };
 double eBulVY[2000] = { 0 };
 int i, j;
@@ -113,20 +138,21 @@ int eBulCount = 0;
 unsigned int a = SDL_GetTicks();
 unsigned int b = SDL_GetTicks();
 double delta = 0;
+
+//초기화ㅏㅏㅏㅏㅏ
 bool init(const char* title, int xpos, int ypos, int height, int width, int flags)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
     {
         window = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
         renderer = SDL_CreateRenderer(window, -1, 0);
+        //이미지
         image = IMG_Load("image/recttest.png");
         bulletimg = IMG_Load("image/Bullet.png");
         texture = SDL_CreateTextureFromSurface(renderer, image);
         bultexture = SDL_CreateTextureFromSurface(renderer, bulletimg);
 
-
-       
-
+        //초기값 부여, 생성
         Position.x = 320-32;
         Position.y = 240-32;
         Position.w = 64;
@@ -136,19 +162,20 @@ bool init(const char* title, int xpos, int ypos, int height, int width, int flag
             bulletR[i].y = -20;
             bulletR[i].w = 8;
             bulletR[i].h = 8;
-            enemyR[i].x = -400;
-            enemyR[i].y = 50;
-            enemyR[i].w = 64;
-            enemyR[i].h = 64;
+            enemy[i].Rect.x = -400;
+            enemy[i].Rect.y = 50;
+            enemy[i].Rect.w = 64;
+            enemy[i].Rect.h = 64;
         }
         for (i = 0; i < 2000; i++) {
-            ebulletR[i].x = 20;
-            ebulletR[i].y = -20;
-            ebulletR[i].w = 8;
-            ebulletR[i].h = 8;
+            enemyBullet[i].Rect.x = 20;
+            enemyBullet[i].Rect.y = -20;
+            enemyBullet[i].Rect.w = 8;
+            enemyBullet[i].Rect.h = 8;
         }
         //test
-        enemyR[0].x = 300;
+        enemy[0].Rect.x = 300;
+        enemy[1].Rect.x = 100;
     }
     else
     {
@@ -161,7 +188,7 @@ int main(int argv, char** args)
     bool game = false;
     bool running = false;
 
-    game = init("SDL GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    game = init("ShootingStar", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH, WINDOW_HEIGHT, 0);
     if (game)
     {
@@ -175,7 +202,7 @@ int main(int argv, char** args)
     SDL_Event event;
 
 
-
+    //메인 루프
     while (running)
     {
         a = SDL_GetTicks();
@@ -269,30 +296,30 @@ int main(int argv, char** args)
                 pgundelay--;
             //적 공격
             for (i = 0; i < 20; i++) {
-                if (enemyR[i].x >= 0 && enemyR[i].x <= WINDOW_WIDTH && enemyR[i].y >= 0 && enemyR[i].y <= WINDOW_HEIGHT) {
-                    eGun[i] = true;
+                if (enemy[i].Rect.x >= 0 && enemy[i].Rect.x <= WINDOW_WIDTH && enemy[i].Rect.y >= 0 && enemy[i].Rect.y <= WINDOW_HEIGHT) {
+                    enemy[i].GunActive = true;
           
                 }
                 else
-                    eGun[i] = false;
-                if (eGun[i] == true) {
-                    if (eGunDelay[i] == 0) {
-                        ebulletR[eBulCount].x = enemyR[i].x;
-                        ebulletR[eBulCount].y = enemyR[i].y;
-                        eBulV[i].x = enemyR[i].x - Position.x;
-                        eBulV[i].y = enemyR[i].y - Position.y;
-                        eBulVL = sqrt((eBulV[i].x * eBulV[i].x) + (eBulV[i].y * eBulV[i].y));
-                        eBulVX[eBulCount] = eBulV[i].x / eBulVL;
-                        eBulVY[eBulCount] = eBulV[i].y / eBulVL;
-                        eGunDelay[i] += 30;
+                    enemy[i].GunActive = false;
+                if (enemy[i].GunActive == true) {
+                    if (enemy[i].GunDelay == 0) {
+                        enemyBullet[eBulCount].Rect.x = enemy[i].Rect.x;
+                        enemyBullet[eBulCount].Rect.y = enemy[i].Rect.y;
+                        enemy[i].GunVector.x = enemy[i].Rect.x - Position.x;
+                        enemy[i].GunVector.y = enemy[i].Rect.y - Position.y;
+                        vectorLength = sqrt((enemy[i].GunVector.x * enemy[i].GunVector.x) + (enemy[i].GunVector.y * enemy[i].GunVector.y));
+                        enemyBullet[eBulCount].Vecter.x = enemy[i].GunVector.x / vectorLength;
+                        enemyBullet[eBulCount].Vecter.y = enemy[i].GunVector.y / vectorLength;
+                        enemy[i].GunDelay += 30;
                         
-                        eBulA[eBulCount] = true;
+                        enemyBullet[eBulCount].Active = true;
                         eBulCount++;
                         if (eBulCount == 2000)
                             eBulCount = 0;
                     }
                     else
-                        eGunDelay[i]--;
+                        enemy[i].GunDelay--;
                 }
             }
             
@@ -305,18 +332,18 @@ int main(int argv, char** args)
 
             for (i = 0; i < 20; i++) {
                 for (j = 0; j < 20; j++)
-                    if (rectcolf(bulletR[i], enemyR[j])) {//내 총알과 적의 충돌 판정
+                    if (rectcolf(bulletR[i], enemy[j].Rect)) {//내 총알과 적의 충돌 판정
                         bulletR[i].x = -10;
 
                     }
                 
             }
             for (i = 0; i < 2000; i++) {
-                if(eBulA[i] == true)
-                ebulletR[i].x -= eBulVX[i]* eBulSpeed;
-                ebulletR[i].y -= eBulVY[i]* eBulSpeed;
-                if (ebulletR[i].x < 0 && ebulletR[i].x > WINDOW_WIDTH && ebulletR[i].y < 0 && ebulletR[i].y > WINDOW_HEIGHT)
-                    eBulA[i] = false;
+                if(enemyBullet[i].Active == true)
+                enemyBullet[i].Rect.x -= enemyBullet[i].Vecter.x * enemyBullet[i].Speed;
+                enemyBullet[i].Rect.y -= enemyBullet[i].Vecter.y * enemyBullet[i].Speed;
+                if (enemyBullet[i].Rect.x < -50 && enemyBullet[i].Rect.x > WINDOW_WIDTH + 50 && enemyBullet[i].Rect.y < -50 && enemyBullet[i].Rect.y > WINDOW_HEIGHT + 50)
+                    enemyBullet[i].Active = false;
             }
             render();//그래픽 렌더링
         }
@@ -327,17 +354,17 @@ int main(int argv, char** args)
     return 0;
 }
 
-
+//그래픽
 void render()
 {
     SDL_Rect temp;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //Black Color
     SDL_RenderClear(renderer);
     for (i = 0; i < 20; i++) {
-        temp.x = round(enemyR[i].x);
-        temp.y = round(enemyR[i].y);
-        temp.w = round(enemyR[i].w);
-        temp.h = round(enemyR[i].h);
+        temp.x = round(enemy[i].Rect.x);
+        temp.y = round(enemy[i].Rect.y);
+        temp.w = round(enemy[i].Rect.w);
+        temp.h = round(enemy[i].Rect.h);
         SDL_RenderCopy(renderer, bultexture, NULL, &temp);
         temp.x = round(bulletR[i].x);
         temp.y = round(bulletR[i].y);
@@ -346,10 +373,10 @@ void render()
         SDL_RenderCopy(renderer, bultexture, NULL, &temp);
     }
     for (i = 0; i < 2000; i++){
-        temp.x = round(ebulletR[i].x);
-        temp.y = round(ebulletR[i].y);
-        temp.w = round(ebulletR[i].w);
-        temp.h = round(ebulletR[i].h);
+        temp.x = round(enemyBullet[i].Rect.x);
+        temp.y = round(enemyBullet[i].Rect.y);
+        temp.w = round(enemyBullet[i].Rect.w);
+        temp.h = round(enemyBullet[i].Rect.h);
         SDL_RenderCopy(renderer, texture, NULL, &temp);
     }
     temp.x = round(Position.x);
