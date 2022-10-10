@@ -15,8 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sho.cpp">
+    <ClCompile Include="Manager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SDL_Rectf.h">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="temp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Manager.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_type.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_enemy.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

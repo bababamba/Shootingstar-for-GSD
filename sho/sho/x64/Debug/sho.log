@@ -1,24 +1,35 @@
-﻿  sho.cpp
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(13,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'VECTOR' 왼쪽은 무시됩니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(20,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'SDL_Rectf' 왼쪽은 무시됩니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(60,29): warning C4244: '/=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(61,29): warning C4244: '/=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(311,80): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(312,80): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(363,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(364,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(365,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(366,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(368,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(369,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(370,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(371,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(375,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(376,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(377,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(378,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(381,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(382,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(383,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\sho\sho.cpp(384,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  sho.vcxproj -> C:\Users\babam\Documents\GitHub\Shootingstar-for-GSD\sho\x64\Debug\sho.exe
+﻿  Manager.cpp
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\enemy_type.h(17,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\enemy_type.h(18,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\basic_enemy.h(24,2): warning C4091: 'static ': 변수를 선언하지 않으면 'basic' 왼쪽은 무시됩니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(115,28): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(117,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(118,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(119,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(120,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(124,32): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(126,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(127,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(128,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(129,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(133,33): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(135,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(136,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(137,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(138,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(142,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(143,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(144,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(145,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\Manager.cpp(258,41): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  enemy.cpp
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\SDL_Rectf.h(23,14): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\enemy_type.h(17,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\enemy_type.h(18,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\basic_enemy.h(24,2): warning C4091: 'static ': 변수를 선언하지 않으면 'basic' 왼쪽은 무시됩니다.
+  temp.cpp
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\enemy_type.h(17,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\enemy_type.h(18,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\sho\basic_enemy.h(24,2): warning C4091: 'static ': 변수를 선언하지 않으면 'basic' 왼쪽은 무시됩니다.
+  코드를 생성하고 있습니다...
+  sho.vcxproj -> C:\Users\c4607\OneDrive\Desktop\Wafer_without_Bun\Shootingstar-for-GSD\sho\x64\Debug\sho.exe
