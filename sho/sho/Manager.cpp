@@ -11,6 +11,7 @@
 #include "Manager.h"
 #include "SDL_Rectf.h"
 #include "basic_enemy.h"
+#include "Stage_Reader.h"
 using namespace std;
 
 /*VECTOR AddVector(VECTOR a, VECTOR b) {
@@ -47,6 +48,9 @@ Manager::Manager() { }
 Manager* Manager::get_m() { 
     if( !m ) {
         m = new Manager();
+        //Manager에서 모든 enemy_type 객체를 1개씩만 가지고 있으며, 이것의 주소값을 enemy.set_type에 넘겨줘서 적을 분화시킨다
+        basic temp1 = basic();
+        m->srct_basic = &temp1;
     }
     return m;
 }
@@ -82,25 +86,21 @@ bool Manager::init(const char* title, int xpos, int ypos, int height, int width,
         Position.w = 64;
         Position.h = 64;
         //총알 초기화
-        SDL_Rectf temp;
+        //SDL_Rectf* temp;
         for(int i = 0; i < 100; i++) {
-            temp.init(-10, -10, 8, 8);
-            available_bullets.push(temp);
+            available_bullets.push(new SDL_Rectf);
+            available_bullets.top()->init(-10, -10, 8, 8);
         }
         //적 초기화
         //★화면에 최대로 등장하는 적 개수만큼 enemy가 생성되어 있어야 한다, 추후 적 개수가 확정되면 이 주석을 지울 것
         for( int i = 0; i < 10; i++ ) {
             available_enemy.push(new enemy());
         }
+        cur_enemy_num = 0;
+        is_enemy_generating = true;
 
-        //★테스트용 적
-        //!!!주의사항, Manager에서 enemy를 저장해두는 collections는 전부 주소값을 저장하도록 되어 있기 떄문에 temp 변수같은 거 거치면 오류난다, 해당 메서드가 종료되면 지역 변수 temp가 할당 해제되면서 그 주소값이 버려지니까
-        cur_enemy.push_back(available_enemy.top());
-        cur_enemy[0]->set_type(srct_basic);
-        cur_enemy[0]->e_sdl.x = 100;
-        cur_enemy[0]->e_sdl.y = 100;
-        cur_enemy[0]->e_sdl.set_slope(4, 1);
     } else {
+        cout << "SDL initiation fail" << endl;
         return false;   //SDL 초기화 실패
     }
     return true;
@@ -123,19 +123,19 @@ void Manager::render() {
     //적 총알 출력
     size = enemy_bullets.size();
     for( int i = 0; i < size; i++ ) {
-        temp.x = round(enemy_bullets[i].x);
-        temp.y = round(enemy_bullets[i].y);
-        temp.w = round(enemy_bullets[i].w);
-        temp.h = round(enemy_bullets[i].h);
+        temp.x = round(enemy_bullets[i]->x);
+        temp.y = round(enemy_bullets[i]->y);
+        temp.w = round(enemy_bullets[i]->w);
+        temp.h = round(enemy_bullets[i]->h);
         SDL_RenderCopy(renderer, bultexture, NULL, &temp);
     }
     //플레이어 총알 출력
     size = player_bullets.size();
     for( int i = 0; i < size; i++ ) {
-        temp.x = round(player_bullets[i].x);
-        temp.y = round(player_bullets[i].y);
-        temp.w = round(player_bullets[i].w);
-        temp.h = round(player_bullets[i].h);
+        temp.x = round(player_bullets[i]->x);
+        temp.y = round(player_bullets[i]->y);
+        temp.w = round(player_bullets[i]->w);
+        temp.h = round(player_bullets[i]->h);
         SDL_RenderCopy(renderer, texture, NULL, &temp);
     }
     //플레이어 출력
@@ -153,29 +153,61 @@ void Manager::close() {
     SDL_Quit();
 }
 
-void bullet_set(float x, float y, float slope_x, float slope_y, bool is_players) { 
+void Manager::bullet_set(const float x, const float y, const float slope_x, const float slope_y, bool is_players) { 
+    SDL_Rectf* temp = available_bullets.top();
+    temp->x = x;
+    temp->y = y;
+    //★발사 주체의 rect를 아예 받아와서 width, height까지 계산하여 정중앙에서 총알을 생성토록 변경할 것
+    temp->set_slope(slope_x, slope_y);
+    if( is_players )
+        player_bullets.push_back(temp);
+    else
+        enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
+    available_bullets.pop();
+}
 
+void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code) { 
+    //available_enemy는 주소값을 저장하도록 되어 있기 떄문에 temp 변수같은 거 거치면 오류난다, 해당 메서드가 종료되면 지역 변수 temp가 할당 해제되면서 그 주소값이 버려지니까
+    cur_enemy.push_back(available_enemy.top());
+    cur_enemy.back()->e_sdl.x = x;
+    cur_enemy.back()->e_sdl.y = y;
+    cur_enemy.back()->e_sdl.set_slope(slope_x, slope_y);
+    switch(enemy_code) { 
+        case 1:
+            cur_enemy.back()->set_type(srct_basic);
+            break;
+    }
+    available_enemy.pop();
+}
+
+void Manager::stage_load() { 
+    //함수 1개 실행이지만 일단 함수에 넣어놨다, 추후 2개 이상의 스테이지를 사용할 경우 이 함수를 확장할 것
+    file_parse("stage.txt", &cur_stage);
+    assert(cur_stage["stage"].IsArray());
+    last_enemy_num = cur_stage["stage"].Size();
+    //assert(cur_stage["test1"].IsString());
+    //printf( cur_stage["test1"].GetString());
 }
 
 //★main 메서드를 특정 클래스 내부에 위치하게 하지 말 것
 int Manager::amain(int argv, char** args) {
-    //Manager에서 모든 enemy_type 객체를 1개씩만 가지고 있으며, 이것의 주소값을 enemy.set_type에 넘겨줘서 적을 분화시킨다
-    basic temp = basic();
-    srct_basic = &temp;
-
+    //★
+    stage_load();
+    
     int size=0; int size2=0;
     bool game = false;
     bool running = false;
 
     game = init("SDL GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+
     if (game) {
+        //cout << "init and game run success\n";
         running = true;
     } else {
         cout << "init and game run failed\n";
         return 1;
     }
-
     SDL_Event event;
     while (running) {
         a = SDL_GetTicks();
@@ -238,18 +270,18 @@ int Manager::amain(int argv, char** args) {
             //플레이어 공격
             //★플레이어 클래스가 제작된 이후 그곳으로 이동, 이곳의 if문은 그 메서드를 호출만 할 것
             if( pgun == true && pgundelay == 0 ) {
-                SDL_Rectf temp = available_bullets.top();
-                temp.x = Position.x;
-                temp.y = Position.y;
-                temp.set_slope(0, -1);
+                SDL_Rectf* temp = available_bullets.top();
+                temp->x = Position.x;
+                temp->y = Position.y;
+                temp->set_slope(0, -1);
                 player_bullets.push_back(temp);
+                available_bullets.pop();
                 pgundelay = 10;
             }
             if( pgundelay > 0 ) {
                 pgundelay--;
             }
             //적 이동 및 공격
-            //★적 클래스가 구현된 이후 enemy 목록을 돌면서 그 클래스의 공격 메서드 호출
             for( enemy* e : cur_enemy ) { 
                 e->move();
                 e->fire();
@@ -257,12 +289,23 @@ int Manager::amain(int argv, char** args) {
             //플레이어 총알 이동
             size = player_bullets.size();
             for( int i = 0; i < size; i++ ) {
-                player_bullets[i].linear_move(8);
-                if( player_bullets[i].is_out() ) {
-                    player_bullets[i].x = -10;
+                player_bullets[i]->linear_move(8);
+                if( player_bullets[i]->is_out() ) {
+                    player_bullets[i]->x = -10;
                     available_bullets.push(player_bullets[i]);
                     player_bullets.erase(player_bullets.begin() + i);
-                    size--;
+                    i--; size--;
+                }
+            }
+            //적 총알 이동
+            size = enemy_bullets.size();
+            for( int i = 0; i < size; i++ ) {
+                enemy_bullets[i]->linear_move(8);
+                if( enemy_bullets[i]->is_out() ) {
+                    enemy_bullets[i]->x = -10;
+                    available_bullets.push(enemy_bullets[i]);
+                    enemy_bullets.erase(enemy_bullets.begin() + i);
+                    i--; size--;
                 }
             }
             /*
@@ -278,16 +321,6 @@ int Manager::amain(int argv, char** args) {
                     }
                 }
             }
-            //적 총알 이동
-            size = enemy_bullets.size();
-            for( int i = 0; i < size; i++ ) {
-                enemy_bullets[i].linear_move(8);
-                if( enemy_bullets[i].is_out() ) {
-                    enemy_bullets[i].x = -10;
-                    available_bullets.push(enemy_bullets[i]);
-                    enemy_bullets.erase(enemy_bullets.begin() + i);
-                }
-            }
             //적 총알과 플레이어의 충돌 판정
             for( int i = 0; i < size; i++ ) {
                 if( rectcolf(enemy_bullets[i], Position) ) {
@@ -297,10 +330,26 @@ int Manager::amain(int argv, char** args) {
                     //★플레이어 폭파 처리
                 }
             }*/
-            render();//그래픽 렌더링
+            //json Document에 따른 적 생성
+            if( is_enemy_generating ){
+                if( a > cur_stage["stage"][cur_enemy_num][0].GetInt() ) {
+                    enemy_set(
+                        cur_stage["stage"][cur_enemy_num][1].GetInt(),
+                        cur_stage["stage"][cur_enemy_num][2].GetInt(),
+                        cur_stage["stage"][cur_enemy_num][3].GetInt(),
+                        cur_stage["stage"][cur_enemy_num][4].GetInt(),
+                        cur_stage["stage"][cur_enemy_num][5].GetInt()
+                    );
+                    cur_enemy_num++;
+                    if( cur_enemy_num >= last_enemy_num ) {
+                        is_enemy_generating = false;
+                    }
+                }
+            }
 
+            render();//그래픽 렌더링
         }
-    }
+    }    
     close();
     return 0;
 }

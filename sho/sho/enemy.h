@@ -16,5 +16,7 @@ public:
 	void fire();
 	void move();
 	void set_type(enemy_type* para_type);
-	void test() { e_type->type_test(); }
+	void test() { 
+		e_type->type_test(); 
+	}
 };

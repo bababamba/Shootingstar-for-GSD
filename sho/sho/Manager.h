@@ -5,6 +5,7 @@
 #include <stack>
 #include <vector>
 #include "SDL_Rectf.h"
+#include "rapidjson/document.h"
 using namespace std;
 
 #pragma once
@@ -22,16 +23,9 @@ public:
 	void render();
 	void close();
 
-	void bullet_set(float x, float y, float slope_x, float slope_y, bool is_players) { 
-		SDL_Rectf temp = available_bullets.top();
-		temp.x = x;
-		temp.y = y;
-		temp.set_slope(slope_x, slope_y);
-		if(is_players)
-			player_bullets.push_back(temp);
-		else
-			player_bullets.push_back(temp);
-	}
+	void bullet_set(float x, float y, float slope_x, float slope_y, bool is_players);
+	void enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code);
+	void stage_load();
 	
 	static Manager* get_m();
 private:
@@ -39,6 +33,11 @@ private:
 	Manager();
 	//~Manager();
 	static Manager* m;
+	
+	rapidjson::Document cur_stage;
+	int cur_enemy_num;
+	int last_enemy_num;
+	bool is_enemy_generating;
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
@@ -55,9 +54,9 @@ private:
 
 	//플레이어 혹은 상대방이 공격한다면, available bullets에서 pop한 Rect를 공격한 객체에 해당하는 list로 옮겨준다
 	//bullet이 화면 밖으로 나갔다면, 다시 availble_bullets에 push한다
-	stack<SDL_Rectf> available_bullets;
-	vector<SDL_Rectf> enemy_bullets;
-	vector<SDL_Rectf> player_bullets;
+	stack<SDL_Rectf*> available_bullets;
+	vector<SDL_Rectf*> enemy_bullets;
+	vector<SDL_Rectf*> player_bullets;
 
 	stack<enemy*> available_enemy;
 	vector<enemy*> cur_enemy;

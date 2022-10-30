@@ -41,5 +41,8 @@
     <ClInclude Include="basic_enemy.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Stage_Reader.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-static struct basic : public enemy_type {
+struct basic : public enemy_type {
 public:
 	basic() { 
 		wh[0] = 64;
@@ -20,5 +20,7 @@ public:
 			i[0] = 30;
 		}
 	}
-	void type_test() { cout << "it's basic\n"; }
+	void type_test() {
+		cout << "it's basic\n";
+	}
 };
