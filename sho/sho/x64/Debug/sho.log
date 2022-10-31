@@ -1,65 +1,34 @@
-﻿  BulletVectorCalculator.cpp
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(17,10): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(44,10): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(45,10): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(57,17): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(60,12): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(67,11): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(67,25): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(81,17): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(91,14): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(92,14): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(103,12): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(104,10): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(104,24): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(123,15): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(126,15): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\BulletVectorCalculator.cpp(129,16): warning C4244: 'return': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Manager.cpp
+﻿  Manager.cpp
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\enemy_type.h(17,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\enemy_type.h(18,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\basic_enemy.h(26,2): warning C4091: 'static ': 변수를 선언하지 않으면 'basic' 왼쪽은 무시됩니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\basic_enemy.h(37,2): warning C4091: 'static ': 변수를 선언하지 않으면 'basic' 왼쪽은 무시됩니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Stage_Reader.h(1,10): warning C4067: 전처리기 지시문 다음에 예기치 않은 토큰이 있습니다. 줄 바꿈 문자가 필요합니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(122,28): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(124,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(125,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(124,28): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(126,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(127,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(131,32): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(133,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(134,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(128,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(129,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(133,32): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(135,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(136,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(140,33): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(142,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(143,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(137,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(138,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(142,33): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(144,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(145,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(149,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(150,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(146,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(147,23): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(151,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(152,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(486,36): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(498,41): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(508,40): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(523,36): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(552,23): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(557,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(556,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(555,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(554,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  SDL_Rectf.h
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\SDL_Rectf.h(23,14): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  enemy.cpp
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\SDL_Rectf.h(23,14): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\enemy_type.h(17,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\enemy_type.h(18,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\basic_enemy.h(26,2): warning C4091: 'static ': 변수를 선언하지 않으면 'basic' 왼쪽은 무시됩니다.
-  player.cpp
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\SDL_Rectf.h(23,14): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  temp.cpp
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\enemy_type.h(17,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\enemy_type.h(18,17): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\basic_enemy.h(26,2): warning C4091: 'static ': 변수를 선언하지 않으면 'basic' 왼쪽은 무시됩니다.
-  코드를 생성하고 있습니다...
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(153,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(154,19): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(317,36): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(329,41): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(339,40): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(354,36): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(383,23): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(388,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(387,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(386,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\sho\Manager.cpp(385,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   sho.vcxproj -> D:\제대후\대학교\22년 2학기\게임시스템디자인\Shootingstar-for-GSD\sho\x64\Debug\sho.exe

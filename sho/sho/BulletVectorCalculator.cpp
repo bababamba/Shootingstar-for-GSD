@@ -1,5 +1,5 @@
-#include <math.h>
 #include "BulletVectorCalculator.h"
+#include <math.h>
 #define M_PI 3.14
 
 //¡∂¡ÿ≈∫ 

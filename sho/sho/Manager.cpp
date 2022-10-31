@@ -174,7 +174,7 @@ void Manager::bullet_set(const float x, const float y, const float slope_x, cons
     float theta = BVC::SlopeToDegree(slope_x, slope_y);
 
     //방향 벡터 선언
-    float vx, vy;
+    float vx = 0.0f, vy = 0.0f;
 
     //InitDirectedBullet 호출.
     BVC::InitDirectedBullet(x, y, vx, vy, theta);
@@ -402,7 +402,6 @@ int Manager::amain(int argv, char** args) {
     return 0;
 }
 
-
 //! @context  도착 지점을 인수로 받는 방향탄 생성 함수
 //! @parameter start_x 탄이 발사되는 지점의 x좌표
 //! @parameter start_y 탄이 발사되는 지점의 y좌표
@@ -412,17 +411,22 @@ int Manager::amain(int argv, char** args) {
 void Manager::directbullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, bool is_players)
 {
     SDL_Rectf* temp = available_bullets.top();
-    float vx, vy;
+
+    //임시 방향 벡터를 생성
+    float vx = 0.0f, vy = 0.0f;
+
+    //방향 벡터 초기화
     BVC::InitAimingBullet(end_x, end_y, start_x, start_y, vx, vy);
+
+    //탄환 설정
     temp->x = start_x;
     temp->y = start_y;
     temp->set_slope(vx, vy);
 
-    //★발사 주체의 rect를 아예 받아와서 width, height까지 계산하여 정중앙에서 총알을 생성토록 변경할 것
     if (is_players)
         player_bullets.push_back(temp);
     else
-        enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
+        enemy_bullets.push_back(temp);
     available_bullets.pop();
 }
 
@@ -434,18 +438,22 @@ void Manager::directbullet_set_coordinate(float start_x, float start_y, float en
 void Manager::directbullet_set_degree(float start_x, float start_y, float theta, bool is_players)
 {
     SDL_Rectf* temp = available_bullets.top();
-    float vx, vy;
 
+    //임시 방향 벡터를 생성
+    float vx = 0.0f, vy = 0.0f;
+
+    //방향 벡터 초기화
     BVC::InitDirectedBullet(start_x, start_y, vx, vy, theta);
+
+    //탄환 설정
     temp->x = start_x;
     temp->y = start_y;
     temp->set_slope(vx, vy);
 
-    //★발사 주체의 rect를 아예 받아와서 width, height까지 계산하여 정중앙에서 총알을 생성토록 변경할 것
     if (is_players)
         player_bullets.push_back(temp);
     else
-        enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
+        enemy_bullets.push_back(temp);
     available_bullets.pop();
 }
 
@@ -458,11 +466,14 @@ void Manager::directbullet_set_degree(float start_x, float start_y, float theta,
 void Manager::circlebullet_set(float start_x, float start_y, int n, bool odd, bool is_players)
 {
     SDL_Rectf* temp;
-    float* vx = new float[n];
-    float* vy = new float[n];
+    //임시 방향 벡터를 생성
+    float* vx = new float[n] {};
+    float* vy = new float[n] {};
 
+    //방향 벡터 초기화
     BVC::InitCircleBullets(n, odd, vx, vy);
 
+    //탄환 설정
     for (int i = 0; i < n; i++)
     {
         temp = available_bullets.top();
@@ -473,7 +484,7 @@ void Manager::circlebullet_set(float start_x, float start_y, int n, bool odd, bo
         if (is_players)
             player_bullets.push_back(temp);
         else
-            enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
+            enemy_bullets.push_back(temp);
         available_bullets.pop();
     }
     delete[] vx;
@@ -490,13 +501,20 @@ void Manager::circlebullet_set(float start_x, float start_y, int n, bool odd, bo
 void Manager::nwaybullet_set_degree(float start_x, float start_y, float central_angle, float theta, int n, bool is_players)
 {
     SDL_Rectf* temp;
+    //임시 기준 방향 벡터를 생성
     float cvx, cvy;
-    float* vx = new float[n];
-    float* vy = new float[n];
+    
+    //임시 방향 벡터를 생성
+    float* vx = new float[n] {};
+    float* vy = new float[n] {};
 
+    //기준 방향 벡터 초기화
     BVC::InitDirectedBullet(start_x, start_y, cvx, cvy, central_angle);
+
+    //기준 방향 벡터를 사용하여 방향 벡터 초기화
     BVC::InitNWayBullets(cvx, cvy, theta, n, vx, vy);
 
+    //탄환 설정
     for (int i = 0; i < n; i++)
     {
         temp = available_bullets.top();
@@ -524,13 +542,19 @@ void Manager::nwaybullet_set_degree(float start_x, float start_y, float central_
 void Manager::nwaybullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, float theta, int n, bool is_players)
 {
     SDL_Rectf* temp;
-    float cvx, cvy;
-    float* vx = new float[n];
-    float* vy = new float[n];
 
+    //임시 기준 방향 벡터를 생성
+    float cvx = 0.0f, cvy = 0.0f;
+    //임시 방향 벡터를 생성
+    float* vx = new float[n] {};
+    float* vy = new float[n] {};
+
+    //기준 방향 벡터 초기화
     BVC::InitAimingBullet(end_x, end_y, start_x, start_y, cvx, cvy);
+    //기준 방향 벡터를 사용하여 방향 벡터 초기화
     BVC::InitNWayBullets(cvx, cvy, theta, n, vx, vy);
 
+    //탄환 설정
     for (int i = 0; i < n; i++)
     {
         temp = available_bullets.top();
@@ -558,15 +582,23 @@ void Manager::nwaybullet_set_coordinate(float start_x, float start_y, float end_
 void Manager::nwaybullet_set_slope(float start_x, float start_y, float slope_x, float slope_y, float theta, int n, bool is_players)
 {
     SDL_Rectf* temp;
-    float cvx, cvy;
-    float* vx = new float[n];
-    float* vy = new float[n];
 
+    //임시 기준 방향 벡터를 생성
+    float cvx = 0.0f, cvy = 0.0f;
+
+    //임시 방향 벡터를 생성
+    float* vx = new float[n] {};
+    float* vy = new float[n] {};
+
+    //인수로 받은 방향 벡터를 사용하여 중앙각 구하기
     float central_angle = BVC::SlopeToDegree(slope_x, slope_y);;
 
+    //기준 방향 벡터 초기화
     BVC::InitDirectedBullet(start_x, start_y, cvx, cvy, central_angle);
+    //기준 방향 벡터를 사용하여 방향 벡터 초기화
     BVC::InitNWayBullets(cvx, cvy, theta, n, vx, vy);
 
+    //탄환 설정
     for (int i = 0; i < n; i++)
     {
         temp = available_bullets.top();
