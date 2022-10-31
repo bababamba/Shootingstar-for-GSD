@@ -29,7 +29,7 @@ public:
 		y += speed * slope[1];
 	}
 	bool is_out() {
-		return (x < 0 - w / 2) | (x > WINDOW_WIDTH + w / 2) | (y < 0 - h / 2) | (y > WINDOW_HEIGHT + h / 2);
+		return (x < 0 - 500) | (x > WINDOW_WIDTH + 500) | (y < 0 - 500) | (y > WINDOW_HEIGHT + 500);
 	}
 	/*
 	bool is_very_out() {

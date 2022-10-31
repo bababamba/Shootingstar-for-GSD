@@ -13,6 +13,7 @@ using namespace std;
 #define WINDOW_HEIGHT 540
 
 class enemy;
+class player;
 struct basic;
 class Manager {
 public:
@@ -25,6 +26,11 @@ public:
 
 	void bullet_set(float x, float y, float slope_x, float slope_y, bool is_players);
 	void enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code);
+	void item_set(float x, float y);
+	player* get_Plr() { 
+		return Plr; 
+	}
+
 	void stage_load();
 	
 	static Manager* get_m();
@@ -48,10 +54,6 @@ private:
 	//적 종류, enemy를 배치할 때 set_type에 매개변수로 집어넣어 사용한다
 	basic* srct_basic;
 
-
-	//C++의 전역변수는 자동으로 초기화된다
-	SDL_Rectf Position;
-
 	//플레이어 혹은 상대방이 공격한다면, available bullets에서 pop한 Rect를 공격한 객체에 해당하는 list로 옮겨준다
 	//bullet이 화면 밖으로 나갔다면, 다시 availble_bullets에 push한다
 	stack<SDL_Rectf*> available_bullets;
@@ -61,6 +63,10 @@ private:
 	stack<enemy*> available_enemy;
 	vector<enemy*> cur_enemy;
 
+	stack<SDL_Rectf*> available_items;
+	vector<SDL_Rectf*> cur_items;
+
+	player* Plr;
 	bool pgun = false;
 	bool dir[4] = { false , false , false , false };
 	int speed = 8;

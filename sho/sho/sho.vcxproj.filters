@@ -27,6 +27,9 @@
     <ClCompile Include="temp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Manager.h">
@@ -42,6 +45,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Stage_Reader.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

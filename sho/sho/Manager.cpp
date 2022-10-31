@@ -12,6 +12,7 @@
 #include "SDL_Rectf.h"
 #include "basic_enemy.h"
 #include "Stage_Reader.h"
+#include "player.h"
 using namespace std;
 
 /*VECTOR AddVector(VECTOR a, VECTOR b) {
@@ -48,6 +49,9 @@ Manager::Manager() { }
 Manager* Manager::get_m() { 
     if( !m ) {
         m = new Manager();
+        //플레이어 생성
+        player* temp_p = new player();
+        m->Plr = temp_p;
         //Manager에서 모든 enemy_type 객체를 1개씩만 가지고 있으며, 이것의 주소값을 enemy.set_type에 넘겨줘서 적을 분화시킨다
         basic temp1 = basic();
         m->srct_basic = &temp1;
@@ -80,21 +84,22 @@ bool Manager::init(const char* title, int xpos, int ypos, int height, int width,
         texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/recttest.png"));
         bultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/Bullet.png"));
 
-        //플레이어 위치
-        Position.x = WINDOW_WIDTH / 2 - 32;
-        Position.y = WINDOW_HEIGHT / 2 - 32;
-        Position.w = 64;
-        Position.h = 64;
+        //플레이어 초기화
+        Plr->init();
         //총알 초기화
-        //SDL_Rectf* temp;
         for(int i = 0; i < 100; i++) {
             available_bullets.push(new SDL_Rectf);
-            available_bullets.top()->init(-10, -10, 8, 8);
+            available_bullets.top()->init(-100, -100, 8, 8);
         }
         //적 초기화
         //★화면에 최대로 등장하는 적 개수만큼 enemy가 생성되어 있어야 한다, 추후 적 개수가 확정되면 이 주석을 지울 것
         for( int i = 0; i < 10; i++ ) {
             available_enemy.push(new enemy());
+        }
+        //item 초기화
+        for( int i = 0; i < 3; i++ ) { 
+            available_items.push(new SDL_Rectf());
+            available_items.top()->init(-100, -100, 64, 64, 0, 1);
         }
         cur_enemy_num = 0;
         is_enemy_generating = true;
@@ -139,10 +144,10 @@ void Manager::render() {
         SDL_RenderCopy(renderer, texture, NULL, &temp);
     }
     //플레이어 출력
-    temp.x = round(Position.x);
-    temp.y = round(Position.y);
-    temp.w = round(Position.w);
-    temp.h = round(Position.h);
+    temp.x = round(Plr->p_sdl.x);
+    temp.y = round(Plr->p_sdl.y);
+    temp.w = round(Plr->p_sdl.w);
+    temp.h = round(Plr->p_sdl.h);
     SDL_RenderCopy(renderer, texture, NULL, &temp);
     SDL_RenderPresent(renderer);
 }
@@ -178,6 +183,13 @@ void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enem
             break;
     }
     available_enemy.pop();
+}
+
+void Manager::item_set(float x, float y) { 
+    SDL_Rectf* temp = available_items.top();
+    temp->x = x;
+    temp->y = y;
+    
 }
 
 void Manager::stage_load() { 
@@ -260,19 +272,19 @@ int Manager::amain(int argv, char** args) {
             }
             //플레이어 이동
             if( dir[0] == true )
-                Position.y -= speed;
+                Plr->p_sdl.y -= speed;
             if( dir[2] == true )
-                Position.y += speed;
+                Plr->p_sdl.y += speed;
             if( dir[1] == true )
-                Position.x += speed;
+                Plr->p_sdl.x += speed;
             if( dir[3] == true )
-                Position.x -= speed;
+                Plr->p_sdl.x -= speed;
             //플레이어 공격
             //★플레이어 클래스가 제작된 이후 그곳으로 이동, 이곳의 if문은 그 메서드를 호출만 할 것
             if( pgun == true && pgundelay == 0 ) {
                 SDL_Rectf* temp = available_bullets.top();
-                temp->x = Position.x;
-                temp->y = Position.y;
+                temp->x = Plr->p_sdl.x;
+                temp->y = Plr->p_sdl.y;
                 temp->set_slope(0, -1);
                 player_bullets.push_back(temp);
                 available_bullets.pop();
@@ -282,34 +294,55 @@ int Manager::amain(int argv, char** args) {
                 pgundelay--;
             }
             //적 이동 및 공격
-            for( enemy* e : cur_enemy ) { 
-                e->move();
-                e->fire();
+            size = cur_enemy.size();
+            for( int i = 0; i < size; i++ ) {
+                cur_enemy[i]->move();
+                cur_enemy[i]->fire();
+                if( cur_enemy[i]->e_sdl.is_out() ) {
+                    cur_enemy[i]->set_type(nullptr);
+                    available_enemy.push(cur_enemy[i]);
+                    cur_enemy.erase(cur_enemy.begin() + i);
+                    i--; size--;
+                }
             }
             //플레이어 총알 이동
             size = player_bullets.size();
             for( int i = 0; i < size; i++ ) {
                 player_bullets[i]->linear_move(8);
                 if( player_bullets[i]->is_out() ) {
-                    player_bullets[i]->x = -10;
                     available_bullets.push(player_bullets[i]);
                     player_bullets.erase(player_bullets.begin() + i);
                     i--; size--;
                 }
             }
-            //적 총알 이동
+            //적 총알 이동, 플레이어가 맞았는지 확인
             size = enemy_bullets.size();
             for( int i = 0; i < size; i++ ) {
                 enemy_bullets[i]->linear_move(8);
-                if( enemy_bullets[i]->is_out() ) {
-                    enemy_bullets[i]->x = -10;
+                if( enemy_bullets[i]->is_out() | rectcolf(*enemy_bullets[i], Plr->p_sdl) ) {
+                    if( rectcolf(*enemy_bullets[i], Plr->p_sdl) ) {
+                        cout << "player is hit by enemy_bullet" << endl;
+                        Plr->die();
+                        game = false;
+                    }
                     available_bullets.push(enemy_bullets[i]);
-                    enemy_bullets.erase(enemy_bullets.begin() + i);
+                    enemy_bullets.erase(enemy_bullets.begin() + i);                    
+                    i--; size--;
+                }
+            }            
+            //아이템 이동
+            size = cur_items.size();
+            for( int i = 0; i < size; i++ ) {
+                cur_items[i]->linear_move(1);
+                if( cur_items[i]->is_out() ) {
+                    available_items.push(cur_items[i]);
+                    cur_items.erase(cur_items.begin() + i);
                     i--; size--;
                 }
             }
             /*
             //플레이어 총알과 적 충돌 판정
+            //★총알 이동 부분에 통합시키기
             size2 = cur_enemy.size();
             for( int i = 0; i < size; i++ ) {
                 for( int j = 0; j < size2; j++ ) {
@@ -323,12 +356,7 @@ int Manager::amain(int argv, char** args) {
             }
             //적 총알과 플레이어의 충돌 판정
             for( int i = 0; i < size; i++ ) {
-                if( rectcolf(enemy_bullets[i], Position) ) {
-                    enemy_bullets[i].x = -10;
-                    available_bullets.push(enemy_bullets[i]);
-                    enemy_bullets.erase(enemy_bullets.begin() + i);
-                    //★플레이어 폭파 처리
-                }
+                
             }*/
             //json Document에 따른 적 생성
             if( is_enemy_generating ){

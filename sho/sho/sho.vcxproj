@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="SDL_Rectf.h" />
     <ClCompile Include="temp.cpp" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemy_type.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="Stage_Reader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-struct basic : public enemy_type {
+static struct basic : public enemy_type {
 public:
 	basic() { 
 		wh[0] = 64;

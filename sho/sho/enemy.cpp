@@ -13,6 +13,10 @@ void enemy::move() {
 }
 
 void enemy::set_type(enemy_type* para_type) {
+	if( para_type == nullptr ) { 
+		e_type = nullptr;
+		return;
+	}
 	for( int i : fire_delay ) {
 		i = 5;
 	}

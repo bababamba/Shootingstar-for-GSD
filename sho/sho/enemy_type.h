@@ -18,13 +18,13 @@ public:
 		rect->h = wh[1];
 		*max_hp = this->max_hp;
 	}
-	virtual void move(SDL_Rectf& s) { 
+	virtual void move(SDL_Rectf& s) {
 		//자식 클래스에서 정의되지 않았다면 적들은 기본적으로 직선 이동한다
-		s.linear_move(speed); 
+		s.linear_move(speed);
 	}
-	virtual void how_to_fire( SDL_Rectf e_sdl, int(&i)[4]) { 
+	virtual void how_to_fire(SDL_Rectf e_sdl, int(&i)[4]) {
 		//이 함수가 인자로 받는 배열 크기는, enemy가 가질 수 있는 공격 방식의 개수와 동일하도록 조정한다
-		cout << "fire method is called by parent enemy_type. please check the method."; 
-	}	
+		cout << "fire method is called by parent enemy_type. please check the method.";
+	}
 	virtual void type_test() { cout << "it's enemy_type\n"; }
 };
