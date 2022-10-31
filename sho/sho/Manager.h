@@ -34,6 +34,15 @@ public:
 	void stage_load();
 	
 	static Manager* get_m();
+
+	//√ﬂ∞° : ¡∂¥Î»∆
+	void directbullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, bool is_players);
+	void directbullet_set_degree(float start_x, float start_y, float theta, bool is_players);
+	void circlebullet_set(float start_x, float start_y, int n, bool odd, bool is_players);
+	void nwaybullet_set_degree(float start_x, float start_y, float central_angle, float theta, int n, bool is_players);
+	void nwaybullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, float theta, int n, bool is_players);
+	void nwaybullet_set_slope(float start_x, float start_y, float slope_x, float slope_y, float theta, int n, bool is_players);
+
 private:
 	//ΩÃ±€≈Ê
 	Manager();
