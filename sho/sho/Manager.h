@@ -16,6 +16,7 @@ using namespace std;
 class enemy;
 class player;
 struct basic;
+struct zigzag;
 class Manager {
 public:
 	int amain(int argv, char** args);
@@ -26,7 +27,7 @@ public:
 	void close();
 
 	void bullet_set(float x, float y, float slope_x, float slope_y, int speed, bool is_players);
-	void enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code);
+	void enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code, bool item);
 	void item_set(float x, float y);
 	player* get_Plr() { 
 		return Plr; 
@@ -72,10 +73,11 @@ private:
 	SDL_Surface* screenL;
 	SDL_Texture* texture;
 	SDL_Texture* bultexture;
-	SDL_Texture* zigzag_texture;
+	SDL_Texture* item_texture;
 
 	//적 종류, enemy를 배치할 때 set_type에 매개변수로 집어넣어 사용한다
 	basic* srct_basic;
+	zigzag* srct_zigzag;
 
 	//플레이어 혹은 상대방이 공격한다면, available bullets에서 pop한 Rect를 공격한 객체에 해당하는 list로 옮겨준다
 	//bullet이 화면 밖으로 나갔다면, 다시 availble_bullets에 push한다
@@ -92,14 +94,8 @@ private:
 	player* Plr;
 	bool pgun = false;
 	bool dir[4] = { false , false , false , false };
-	int speed = 8;
-	int bulcount = 0;
-	int pgundelay = 3;
+	int speed = 6;
 
-	bool eGun[20] = { false };
-	int eGunDelay[20] = { 0 };
-	float eBulSpeed = 5;
-	int eBulCount = 0;
 	unsigned int prev_time = SDL_GetTicks();
 	unsigned int current_time = SDL_GetTicks();
 	float deltaTime = 0.0f;

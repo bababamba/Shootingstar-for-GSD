@@ -10,7 +10,7 @@ public:
 	void init();
 	void attack();
 	void attack_delay_decrease();
-	void set_attack_level(const int i);
+	void increse_attack_level(const int i);
 	void die();
 private:
 	int attack_level;

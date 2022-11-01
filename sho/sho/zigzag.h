@@ -1,11 +1,11 @@
 #pragma once
-#include "SDL_Rectf.h"
 #include "enemy_type.h"
-#include "Manager.h"
 
 #include <iostream>
 using namespace std;
 
+class enemy;
+class SDL_Renderer;
 static struct zigzag : public enemy_type {
 public:
 	zigzag(SDL_Renderer* M_renderer);

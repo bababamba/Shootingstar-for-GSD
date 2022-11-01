@@ -150,6 +150,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="SDL_Rectf.h" />
     <ClCompile Include="temp.cpp" />
+    <ClCompile Include="zigzag.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basic_enemy.h" />

@@ -1,7 +1,10 @@
 #include <math.h>
 
-#define WINDOW_WIDTH  960
-#define WINDOW_HEIGHT 540
+#include <iostream>
+using namespace std;
+
+#define WINDOW_WIDTH  720
+#define WINDOW_HEIGHT 960
 #pragma once
 
 struct SDL_Rectf {
@@ -37,7 +40,7 @@ public:
 		y += speed1 * slope[1];
 	}
 	bool is_out() {
-		return (x < 0 - 500) | (x > WINDOW_WIDTH + 500) | (y < 0 - 500) | (y > WINDOW_HEIGHT + 500);
+		return (x < - 3 * w) | (x > WINDOW_WIDTH + 2 * w) | (y < - 3 * h) | (y > WINDOW_HEIGHT + 2 * h);
 	}
 	/*
 	bool is_very_out() {

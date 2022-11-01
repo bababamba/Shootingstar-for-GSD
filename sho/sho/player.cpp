@@ -2,10 +2,9 @@
 #include "Manager.h"
 #include "player.h"
 
-#include <iostream>
+#define BULLET_SPEED 12
 
 player::player() { 
-	
 	p_sdl = SDL_Rectf();
 	p_sdl.init(0, 0, 64, 64);
 	init();
@@ -27,28 +26,31 @@ void player::attack() {
 		switch( attack_level ) { 
 			case 2:
 				//3단계 공격
+				Manager::get_m()->bullet_set(p_sdl.x, p_sdl.y + 32, 0, -1, BULLET_SPEED, true);
+				Manager::get_m()->bullet_set(p_sdl.x + 64, p_sdl.y + 32, 0, -1, BULLET_SPEED, true);
 			case 1:
 				//2단계 공격
+				Manager::get_m()->directbullet_set_degree(p_sdl.x + 32, p_sdl.y + 32, 225, BULLET_SPEED, true);
+				Manager::get_m()->directbullet_set_degree(p_sdl.x + 32, p_sdl.y + 32, 315, BULLET_SPEED, true);
 			default:
 				//1단계 공격
-				Manager::get_m()->bullet_set(p_sdl.x, p_sdl.y, 0, -1, 8, true);
+				Manager::get_m()->bullet_set(p_sdl.x + 32, p_sdl.y + 32, 0, -1, BULLET_SPEED, true);
 				attack_delay = 10;
 		}
 	}
 }
 
-void player::set_attack_level(const int i) { 
+void player::increse_attack_level(const int i) { 
 	//attack_level은 최대 3단계까지만 존재한다
-	if( i < 0 ) { 
+	attack_level += i;
+	if( attack_level < 0 ) { 
 		attack_level = 0;
-	} else if( i > 2 ) { 
+	} else if( attack_level > 2 ) { 
 		attack_level = 2;
-	} else { 
-		attack_level = i;
 	}
 }
 
 void player::die() { 
-	p_sdl.x = -1000;
-	p_sdl.y = -1000;
+	p_sdl.x = WINDOW_WIDTH /2 ;
+	p_sdl.y = WINDOW_HEIGHT - 10 ;
 }

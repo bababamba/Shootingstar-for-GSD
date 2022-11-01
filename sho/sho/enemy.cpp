@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "Manager.h"
 
 void enemy::fire() { 
 	for( int i = 0; i < 4; i++ ) {
@@ -12,18 +13,24 @@ void enemy::move() {
 	e_type->move(this);
 }
 
-void enemy::hit() { 
+bool enemy::hit() { 
 	hp--;
 	if( hp < 1 ) { 
 		die();
+		return true;
+	} else { 
+		return false;
 	}
 }
 
 void enemy::die() { 
+	e_type = nullptr;
+	SA_var1 = -1;
+	SA_var2 = -1;
+	SA_bool = false;
 	if( has_item ) { 
-		//★아이템 생성
+		Manager::get_m()->item_set(e_sdl.x, e_sdl.y);
 	}
-	//★화면 밖으로 치우기, Manager의 bullet 없어지는 거 참조, e_type 또한 nullptr로 바꿔줘야 한다
 }
 
 void enemy::set_type(enemy_type* para_type) {
