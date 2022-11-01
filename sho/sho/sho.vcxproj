@@ -147,6 +147,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy_type.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="middle1.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="SDL_Rectf.h" />
     <ClCompile Include="temp.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemy_type.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="middle1.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="Stage_Reader.h" />
     <ClInclude Include="zigzag.h" />

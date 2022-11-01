@@ -12,6 +12,7 @@
 #include "SDL_Rectf.h"
 #include "basic_enemy.h"
 #include "zigzag.h"
+#include "middle1.h"
 #include "Stage_Reader.h"
 #include "player.h"
 #include "BulletVectorCalculator.h"
@@ -57,6 +58,7 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         //SDL 텍스처 생성, enemy 텍스처는 각각의 enemy_type에서 생성하므로 제외할 것
         texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/recttest.png"));
         bultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/Bullet.png"));
+        ebultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/enemy_bullet.png"));
         item_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/item.png"));
         //플레이어 생성
         player* temp_p = new player();
@@ -75,6 +77,7 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         //enemy_type 생성
         srct_basic = new basic(renderer);
         srct_zigzag = new zigzag(renderer);
+        srct_middle1 = new middle1(renderer);
         //item 생성
         for( int i = 0; i < 3; i++ ) {
             available_items.push(new SDL_Rectf());
@@ -173,7 +176,7 @@ void Manager::render() {
         temp.y = round(enemy_bullets[i]->y);
         temp.w = round(enemy_bullets[i]->w);
         temp.h = round(enemy_bullets[i]->h);
-        SDL_RenderCopy(renderer, bultexture, NULL, &temp);
+        SDL_RenderCopy(renderer, ebultexture, NULL, &temp);
     }
     //플레이어 총알 출력
     size = player_bullets.size();
@@ -245,6 +248,9 @@ void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enem
         case 2:
             cur_enemy.back()->set_type(srct_zigzag);
             break;
+        case 3:
+            cur_enemy.back()->set_type(srct_middle1);
+            break;
     }
     available_enemy.pop();
 }
@@ -255,7 +261,7 @@ void Manager::item_set(float x, float y) {
         return;
     }
     cur_items.push_back(available_items.top());
-    cur_items.back()->init(x, y, 64, 64, 0, 1);
+    cur_items.back()->init(x, y, 32, 32, 0, 1);
     available_items.pop();
 }
 
