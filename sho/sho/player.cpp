@@ -17,8 +17,24 @@ void player::init() {
 	this->attack_level = 0;
 }
 
+void player::attack_delay_decrease() { 
+	if( attack_delay > -10 )
+		attack_delay--;
+}
+
 void player::attack() { 
-	//★공격 함수 불러와서 공격, attack_level에 switch문 사용해서 공격 단계 구현
+	if( attack_delay < 1 ) { 
+		switch( attack_level ) { 
+			case 2:
+				//3단계 공격
+			case 1:
+				//2단계 공격
+			default:
+				//1단계 공격
+				Manager::get_m()->bullet_set(p_sdl.x, p_sdl.y, 0, -1, 8, true);
+				attack_delay = 10;
+		}
+	}
 }
 
 void player::set_attack_level(const int i) { 

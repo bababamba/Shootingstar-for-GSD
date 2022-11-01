@@ -33,6 +33,12 @@
     <ClCompile Include="BulletVectorCalculator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="enemy_type.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_enemy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Manager.h">
@@ -54,6 +60,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="BulletVectorCalculator.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="zigzag.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

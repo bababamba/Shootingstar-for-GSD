@@ -7,20 +7,21 @@
 #include "SDL_Rectf.h"
 #include "rapidjson/document.h"
 using namespace std;
+#include <iostream>
 
 #pragma once
-#define WINDOW_WIDTH  960
-#define WINDOW_HEIGHT 540
+#define WINDOW_WIDTH  720
+#define WINDOW_HEIGHT 960
 
 class enemy;
 class player;
 struct basic;
 class Manager {
 public:
-	bool init(const char* title, int xpos, int ypos, int height, int width, int flags);
 	int amain(int argv, char** args);
 	//bool rectcol(SDL_Rectf a, SDL_Rectf b);
 	bool rectcolf(SDL_Rectf a, SDL_Rectf b);
+	void init();
 	void render();
 	void close();
 
@@ -30,6 +31,9 @@ public:
 	player* get_Plr() { 
 		return Plr; 
 	}
+	SDL_Renderer* get_renderer() {
+		return renderer;
+	};
 
 	void stage_load();
 	
@@ -54,7 +58,7 @@ public:
 
 private:
 	//싱글톤
-	Manager();
+	Manager(const char* title, int xpos, int ypos, int height, int width, int flags);
 	//~Manager();
 	static Manager* m;
 	
@@ -68,6 +72,7 @@ private:
 	SDL_Surface* screenL;
 	SDL_Texture* texture;
 	SDL_Texture* bultexture;
+	SDL_Texture* zigzag_texture;
 
 	//적 종류, enemy를 배치할 때 set_type에 매개변수로 집어넣어 사용한다
 	basic* srct_basic;

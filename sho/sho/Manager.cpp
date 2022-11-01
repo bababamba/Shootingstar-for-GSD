@@ -47,20 +47,90 @@ typedef BulletVectorCalculator BVC;
 
 Manager* Manager::m = NULL;
 
-Manager::Manager() { }
+//게임의 기반을 준비하는 부분
+Manager::Manager(const char* title, int xpos, int ypos, int height, int width, int flags) {
+    if( SDL_Init(SDL_INIT_EVERYTHING) >= 0 ) {
+        //SDL 준비
+        window = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
+        renderer = SDL_CreateRenderer(window, -1, 0);
+        //SDL 텍스처 생성, enemy 텍스처는 각각의 enemy_type에서 생성하므로 제외할 것
+        texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/recttest.png"));
+        bultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/Bullet.png"));
+        //플레이어 생성
+        player* temp_p = new player();
+        Plr = temp_p;
+        Plr->init();
+        //총알 생성
+        for( int i = 0; i < 100; i++ ) {
+            available_bullets.push(new SDL_Rectf);
+            available_bullets.top()->init(-100, -100, 8, 8);
+        }
+        //적 생성
+        //★화면에 최대로 등장하는 적 개수만큼 enemy가 생성되어 있어야 한다, 추후 적 개수가 확정되면 이 주석을 지울 것
+        for( int i = 0; i < 10; i++ ) {
+            available_enemy.push(new enemy());
+        }
+        //enemy_type 생성
+        basic* temp1 = new basic(renderer);
+        srct_basic = temp1;
+        //item 생성
+        for( int i = 0; i < 3; i++ ) {
+            available_items.push(new SDL_Rectf());
+            available_items.top()->init(-100, -100, 64, 64, 0, 1);
+        }
+        //스테이지 생성 관련
+        stage_load();
+        //초기화
+        init();
+    } else {
+        cout << "SDL initiation fail" << endl;
+    }
+}
 //Manager::~Manager() { }
 
 Manager* Manager::get_m() { 
     if( !m ) {
-        m = new Manager();
-        //플레이어 생성
-        player* temp_p = new player();
-        m->Plr = temp_p;
-        //Manager에서 모든 enemy_type 객체를 1개씩만 가지고 있으며, 이것의 주소값을 enemy.set_type에 넘겨줘서 적을 분화시킨다
-        basic temp1 = basic();
-        m->srct_basic = &temp1;
+        m = new Manager("SDL GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+            WINDOW_WIDTH, WINDOW_HEIGHT, 0);
     }
     return m;
+}
+
+void Manager::init() { 
+    int size;
+    //플레이어 초기화
+    Plr->init();
+    //총알 초기화
+    size = enemy_bullets.size();
+    for( int i = 0; i < size; i++ ) {
+        enemy_bullets[i]->init(-100, -100, 8, 8);
+        available_bullets.push(enemy_bullets[i]);
+        enemy_bullets.erase(enemy_bullets.begin() + i);
+    }
+    size = player_bullets.size();
+    for( int i = 0; i < size; i++ ) {
+        player_bullets[i]->init(-100, -100, 8, 8);
+        available_bullets.push(player_bullets[i]);
+        enemy_bullets.erase(player_bullets.begin() + i);
+    }
+    //적 초기화
+    size = cur_enemy.size();
+    for( int i = 0; i < size; i++ ) {
+        cur_enemy[i]->set_type(nullptr);
+        cur_enemy[i]->e_sdl.init(-100, -100, 0, 0);
+        available_enemy.push(cur_enemy[i]);
+        cur_enemy.erase(cur_enemy.begin() + i);
+    }
+    //item 초기화
+    size = cur_items.size();
+    for( int i = 0; i < size; i++ ) {
+        cur_items[i]->init(-100, -100, 64, 64, 0, 1);
+        available_items.push(cur_items[i]);
+        cur_items.erase(cur_items.begin() + i);
+    }
+    //스테이지 생성 관련
+    cur_enemy_num = 0;
+    is_enemy_generating = true;
 }
 
 bool Manager::rectcolf(SDL_Rectf a, SDL_Rectf b)
@@ -79,55 +149,20 @@ bool Manager::rectcolf(SDL_Rectf a, SDL_Rectf b)
     return false;
 }
 
-bool Manager::init(const char* title, int xpos, int ypos, int height, int width, int flags) {
-    if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
-    {
-        window = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
-        renderer = SDL_CreateRenderer(window, -1, 0);
-
-        texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/recttest.png"));
-        bultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/Bullet.png"));
-
-        //플레이어 초기화
-        Plr->init();
-        //총알 초기화
-        for(int i = 0; i < 100; i++) {
-            available_bullets.push(new SDL_Rectf);
-            available_bullets.top()->init(-100, -100, 8, 8);
-        }
-        //적 초기화
-        //★화면에 최대로 등장하는 적 개수만큼 enemy가 생성되어 있어야 한다, 추후 적 개수가 확정되면 이 주석을 지울 것
-        for( int i = 0; i < 10; i++ ) {
-            available_enemy.push(new enemy());
-        }
-        //item 초기화
-        for( int i = 0; i < 3; i++ ) { 
-            available_items.push(new SDL_Rectf());
-            available_items.top()->init(-100, -100, 64, 64, 0, 1);
-        }
-        cur_enemy_num = 0;
-        is_enemy_generating = true;
-
-    } else {
-        cout << "SDL initiation fail" << endl;
-        return false;   //SDL 초기화 실패
-    }
-    return true;
-}
 void Manager::render() {
     int size;
     SDL_Rect temp;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //Black Color
     SDL_RenderClear(renderer);
     //적 출력
-    //★만약 중간 보스, 최종 보스의 크기가 다른 적들과 다르다면 전용 렌더링 과정을 추가해야 한다
+    
     size = cur_enemy.size();
     for( int i = 0; i < size; i++ ) {
         temp.x = round(cur_enemy[i]->e_sdl.x);
         temp.y = round(cur_enemy[i]->e_sdl.y);
         temp.w = round(cur_enemy[i]->e_sdl.w);
         temp.h = round(cur_enemy[i]->e_sdl.h);
-        SDL_RenderCopy(renderer, texture, NULL, &temp);
+        SDL_RenderCopy(renderer, cur_enemy[i]->get_type()->get_texture(), NULL, &temp);
     }
     //적 총알 출력
     size = enemy_bullets.size();
@@ -145,7 +180,7 @@ void Manager::render() {
         temp.y = round(player_bullets[i]->y);
         temp.w = round(player_bullets[i]->w);
         temp.h = round(player_bullets[i]->h);
-        SDL_RenderCopy(renderer, texture, NULL, &temp);
+        SDL_RenderCopy(renderer, bultexture, NULL, &temp);
     }
     //플레이어 출력
     temp.x = round(Plr->p_sdl.x);
@@ -164,8 +199,8 @@ void Manager::close() {
 
 void Manager::bullet_set(const float x, const float y, const float slope_x, const float slope_y,const int speed, bool is_players) { 
     SDL_Rectf* temp = available_bullets.top();
-    temp->x = x;
-    temp->y = y;
+    temp->x = x + 32;   //총알이 객체 한가운데에서 나왔으면 좋겠는데 이제와서 매개변수에 SDL_Rectf 추가하기엔 너무 커졌다, 임시방편으로 그냥 +32한다
+    temp->y = y + 32;
     temp->set_slope(slope_x, slope_y);
     temp->set_speed(speed);
 
@@ -178,7 +213,7 @@ void Manager::bullet_set(const float x, const float y, const float slope_x, cons
 }
 
 void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code) { 
-    //available_enemy는 주소값을 저장하도록 되어 있기 떄문에 temp 변수같은 거 거치면 오류난다, 해당 메서드가 종료되면 지역 변수 temp가 할당 해제되면서 그 주소값이 버려지니까
+    //available 스택들은 주소값을 저장하도록 되어 있기 떄문에 지역 변수 거치면 오류난다, 메서드가 종료되면 지역 변수가 할당 해제되면서 그 주소값이 버려지니까
     cur_enemy.push_back(available_enemy.top());
     cur_enemy.back()->e_sdl.x = x;
     cur_enemy.back()->e_sdl.y = y;
@@ -208,31 +243,19 @@ void Manager::stage_load() {
 }
 
 //★main 메서드를 특정 클래스 내부에 위치하게 하지 말 것
-int Manager::amain(int argv, char** args) {
-    //★
-    stage_load();
-    
+int Manager::amain(int argv, char** args) {   
     int size=0; int size2=0;
-    bool game = false;
-    bool running = false;
+    //★게임이 재시작될 때 게임시간 또한 초기화되어야 하지만 SDL의 GetTick은 window를 새로고침하지 않는 이상 초기화할 수 없다, 따라서 run_time에 delta_time을 더한 것을 게임시간으로 사용해 이를 해결한다
+    float run_time = 0;
+    bool game = true;
+    bool running = true;
 
-    game = init("SDL GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-
-    if (game) {
-        //cout << "init and game run success\n";
-        running = true;
-    } else {
-        cout << "init and game run failed\n";
-        return 1;
-    }
     SDL_Event event;
     while (running) {
         current_time = SDL_GetTicks();
         if (current_time-prev_time > 1000 / 60.0) {
-            
-            //
             deltaTime = (current_time - prev_time) / 100;
+            //★run_time += deltaTime;    
             prev_time = current_time;
             
             while( SDL_PollEvent(&event) ) {
@@ -241,6 +264,7 @@ int Manager::amain(int argv, char** args) {
                         running = false;
                         break;
                     case SDL_KEYDOWN:
+                        cout << Plr->p_sdl.x << " / " << Plr->p_sdl.y << endl;
                         if( event.key.keysym.sym == SDLK_ESCAPE ) {
                             std::cout << "Window Closing...\n";
                             running = false;
@@ -259,6 +283,9 @@ int Manager::amain(int argv, char** args) {
                         }
                         if( event.key.keysym.sym == SDLK_j ) {
                             pgun = true;
+                        }
+                        if( event.key.keysym.sym == SDLK_r ) {
+                            //게임 재시작
                         }
                         break;
                     case SDL_KEYUP:
@@ -281,16 +308,21 @@ int Manager::amain(int argv, char** args) {
                 }
             }
             //플레이어 이동
-            if( dir[0] == true )
+            if( dir[0] == true & (Plr->p_sdl.y > 0) )
                 Plr->p_sdl.y -= speed;
-            if( dir[2] == true )
+            if( dir[2] == true & (Plr->p_sdl.y < WINDOW_HEIGHT - Plr->p_sdl.h) )
                 Plr->p_sdl.y += speed;
-            if( dir[1] == true )
+            if( dir[1] == true & (Plr->p_sdl.x < WINDOW_WIDTH - Plr->p_sdl.w) )
                 Plr->p_sdl.x += speed;
-            if( dir[3] == true )
+            if( dir[3] == true & (Plr->p_sdl.x > 0) )
                 Plr->p_sdl.x -= speed;
             //플레이어 공격
             //★플레이어 클래스가 제작된 이후 그곳으로 이동, 이곳의 if문은 그 메서드를 호출만 할 것
+            Plr->attack_delay_decrease();
+            if( pgun ) { 
+                Plr->attack();
+            }
+            /*
             if( pgun == true && pgundelay == 0 ) {
                 SDL_Rectf* temp = available_bullets.top();
                 temp->x = Plr->p_sdl.x;
@@ -302,7 +334,7 @@ int Manager::amain(int argv, char** args) {
             }
             if( pgundelay > 0 ) {
                 pgundelay--;
-            }
+            }*/
             //적 이동 및 공격
             size = cur_enemy.size();
             for( int i = 0; i < size; i++ ) {

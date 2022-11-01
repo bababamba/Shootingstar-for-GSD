@@ -142,8 +142,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="basic_enemy.cpp" />
     <ClCompile Include="BulletVectorCalculator.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemy_type.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="SDL_Rectf.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="Stage_Reader.h" />
+    <ClInclude Include="zigzag.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
