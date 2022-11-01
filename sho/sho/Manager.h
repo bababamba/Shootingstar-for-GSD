@@ -24,7 +24,7 @@ public:
 	void render();
 	void close();
 
-	void bullet_set(float x, float y, float slope_x, float slope_y, bool is_players);
+	void bullet_set(float x, float y, float slope_x, float slope_y, int speed, bool is_players);
 	void enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code);
 	void item_set(float x, float y);
 	player* get_Plr() { 
@@ -40,17 +40,17 @@ public:
 	//deltaTime을 리턴
 	float getdeltaTime() { return deltaTime; }
 	//도착 지점을 인수로 받는 방향탄 생성 함수
-	void directbullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, bool is_players);
+	void directbullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, int speed, bool is_players);
 	//발사 각도를 인수로 받는 방향탄 생성 함수. 
-	void directbullet_set_degree(float start_x, float start_y, float theta, bool is_players);
+	void directbullet_set_degree(float start_x, float start_y, float theta, int speed, bool is_players);
 	//원형탄 생성 함수. 
-	void circlebullet_set(float start_x, float start_y, int n, bool odd, bool is_players);
+	void circlebullet_set(float start_x, float start_y, int n, bool odd, int speed, bool is_players);
 	//중심 탄의 방향을 각도로 받는 확산탄 생성 함수. 
-	void nwaybullet_set_degree(float start_x, float start_y, float central_angle, float theta, int n, bool is_players);
+	void nwaybullet_set_degree(float start_x, float start_y, float central_angle, float theta, int n, int speed, bool is_players);
 	//중심 탄의 도착 지점을 인수로 받는 확산탄 생성 함수. 
-	void nwaybullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, float theta, int n, bool is_players);
+	void nwaybullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, float theta, int n, int speed, bool is_players);
 	//중심 탄의 방향 벡터를 받는 확산탄 생성 함수. 
-	void nwaybullet_set_slope(const float start_x, const float start_y, const float slope_x, const float slope_y, float theta, int n, bool is_players);
+	void nwaybullet_set_slope(const float start_x, const float start_y, const float slope_x, const float slope_y, float theta, int n, int speed, bool is_players);
 
 private:
 	//싱글톤

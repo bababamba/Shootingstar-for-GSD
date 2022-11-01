@@ -16,7 +16,8 @@ public:
 	}
 	void how_to_fire( SDL_Rectf e_sdl, int(&i)[4]) {
 		if( i[0] <= 0 ) {
-			Manager::get_m()->bullet_set(e_sdl.x, e_sdl.y, 0, 1, false);
+
+			Manager::get_m()->bullet_set(e_sdl.x, e_sdl.y, 0, 1,8, false);
 			i[0] = 30;
 		}
 	}

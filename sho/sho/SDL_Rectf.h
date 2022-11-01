@@ -9,6 +9,7 @@ public:
 	float slope[2];	//만약 이 Rect가 직선 이동 중이라면, 길이가 1로 표준화된 벡터 slope가 그 이동 방향을 표시한다 (SDL에서 위로 이동할 경우 y 좌표가 감소함에 유의)
 	float x, y;
 	float w, h;
+	int speed;
 
 	//slope의 인덱스를 초기화할 때에 어떤 값을 넣는지는 상관없으나 꼭 set_slope를 호출하도록 해야 한다, set_slope가 초기화해주지 않으면 linear_move의 speed가 제대로 적용되지 않는다
 	void init(float x, float y, float w, float h, float slope_x = 0, float slope_y = -1) {
@@ -24,9 +25,16 @@ public:
 		slope[0] = slope_x / norm;
 		slope[1] = slope_y / norm;
 	}
-	void linear_move(int speed) {
+	void set_speed(int speed1) {
+		this->speed = speed1;
+	}
+	void linear_move() {
 		x += speed * slope[0];
 		y += speed * slope[1];
+	}
+	void linear_move(int speed1) {
+		x += speed1 * slope[0];
+		y += speed1 * slope[1];
 	}
 	bool is_out() {
 		return (x < 0 - 500) | (x > WINDOW_WIDTH + 500) | (y < 0 - 500) | (y > WINDOW_HEIGHT + 500);
