@@ -1,4 +1,5 @@
 #include "SDL_Rectf.h"
+#include "Manager.h"
 #pragma once
 
 #include <iostream>

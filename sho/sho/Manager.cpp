@@ -162,26 +162,11 @@ void Manager::close() {
     SDL_Quit();
 }
 
-//! @context 발사 각도를 방향 벡터로 받는 방향탄 생성 함수.
-//! @context 함수이름은 그냥 둠
 void Manager::bullet_set(const float x, const float y, const float slope_x, const float slope_y, bool is_players) { 
     SDL_Rectf* temp = available_bullets.top();
     temp->x = x;
     temp->y = y;
-
-    // 추가 start
-    // 방향 벡터(slope_x, slope_y) 를 각도(degree)로 변환
-    float theta = BVC::SlopeToDegree(slope_x, slope_y);
-
-    //방향 벡터 선언
-    float vx = 0.0f, vy = 0.0f;
-
-    //InitDirectedBullet 호출.
-    BVC::InitDirectedBullet(x, y, vx, vy, theta);
-
-    //방향 벡터를 설정
-    temp->set_slope(vx, vy);
-    //추가 end
+    temp->set_slope(slope_x, slope_y);
  
     //★발사 주체의 rect를 아예 받아와서 width, height까지 계산하여 정중앙에서 총알을 생성토록 변경할 것
     if( is_players )
@@ -242,9 +227,13 @@ int Manager::amain(int argv, char** args) {
     }
     SDL_Event event;
     while (running) {
-        a = SDL_GetTicks();
-        if (a-b > 1000 / 60.0) {
-            b = a;
+        current_time = SDL_GetTicks();
+        if (current_time-prev_time > 1000 / 60.0) {
+            
+            //
+            deltaTime = (current_time - prev_time) / 100;
+            prev_time = current_time;
+            
             while( SDL_PollEvent(&event) ) {
                 switch( event.type ) {
                     case SDL_QUIT:
@@ -380,7 +369,7 @@ int Manager::amain(int argv, char** args) {
             }*/
             //json Document에 따른 적 생성
             if( is_enemy_generating ){
-                if( a > cur_stage["stage"][cur_enemy_num][0].GetInt() ) {
+                if( current_time > cur_stage["stage"][cur_enemy_num][0].GetInt() ) {
                     enemy_set(
                         cur_stage["stage"][cur_enemy_num][1].GetInt(),
                         cur_stage["stage"][cur_enemy_num][2].GetInt(),
@@ -408,26 +397,16 @@ int Manager::amain(int argv, char** args) {
 //! @parameter end_x 탄이 도착하는 지점의 x좌표
 //! @parameter end_y 탄이 도착하는 지점의 y좌표
 //! @parameter is_players 탄이 플레이어의 것인지 판별하는 bool 대수
-void Manager::directbullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, bool is_players)
+void Manager::directbullet_set_coordinate(const float start_x, const float start_y, const float end_x, const float end_y, bool is_players)
 {
-    SDL_Rectf* temp = available_bullets.top();
-
     //임시 방향 벡터를 생성
     float vx = 0.0f, vy = 0.0f;
 
-    //방향 벡터 초기화
+    //방향 벡터를 연산
     BVC::InitAimingBullet(end_x, end_y, start_x, start_y, vx, vy);
-
-    //탄환 설정
-    temp->x = start_x;
-    temp->y = start_y;
-    temp->set_slope(vx, vy);
-
-    if (is_players)
-        player_bullets.push_back(temp);
-    else
-        enemy_bullets.push_back(temp);
-    available_bullets.pop();
+    
+    //bullet_set 호출
+    bullet_set(start_x, start_y, vx, vy, is_players);
 }
 
 //! @context 발사 각도를 인수로 받는 방향탄 생성 함수. 
@@ -435,26 +414,16 @@ void Manager::directbullet_set_coordinate(float start_x, float start_y, float en
 //! @parameter start_y 탄이 발사되는 지점의 y좌표
 //! @parameter theta 탄이 발사되는 각도(degree). 양의 x축을 기준으로 시계방향으로 잰다.
 //! @parameter is_players 탄이 플레이어의 것인지 판별하는 bool 대수
-void Manager::directbullet_set_degree(float start_x, float start_y, float theta, bool is_players)
+void Manager::directbullet_set_degree(const float start_x, const float start_y, float theta, bool is_players)
 {
-    SDL_Rectf* temp = available_bullets.top();
-
     //임시 방향 벡터를 생성
     float vx = 0.0f, vy = 0.0f;
 
-    //방향 벡터 초기화
+    //방향 벡터를 연산
     BVC::InitDirectedBullet(start_x, start_y, vx, vy, theta);
 
-    //탄환 설정
-    temp->x = start_x;
-    temp->y = start_y;
-    temp->set_slope(vx, vy);
-
-    if (is_players)
-        player_bullets.push_back(temp);
-    else
-        enemy_bullets.push_back(temp);
-    available_bullets.pop();
+    //bullet_set 호출
+    bullet_set(start_x, start_y, vx, vy, is_players);
 }
 
 //! @context 원형탄 생성 함수. 
@@ -463,30 +432,19 @@ void Manager::directbullet_set_degree(float start_x, float start_y, float theta,
 //! @parameter n 생성할 원형탄의 개수
 //! @parameter odd 홀수 패턴일 때 참.
 //! @parameter is_players 탄이 플레이어의 것인지 판별하는 bool 대수
-void Manager::circlebullet_set(float start_x, float start_y, int n, bool odd, bool is_players)
+void Manager::circlebullet_set(const float start_x, const float start_y, int n, bool odd, bool is_players)
 {
-    SDL_Rectf* temp;
     //임시 방향 벡터를 생성
     float* vx = new float[n] {};
     float* vy = new float[n] {};
 
-    //방향 벡터 초기화
+    //방향 벡터를 연산
     BVC::InitCircleBullets(n, odd, vx, vy);
 
     //탄환 설정
     for (int i = 0; i < n; i++)
-    {
-        temp = available_bullets.top();
-        temp->x = start_x;
-        temp->y = start_y;
-        temp->set_slope(vx[i], vy[i]);
+        bullet_set(start_x, start_y, vx[i], vy[i], is_players);
 
-        if (is_players)
-            player_bullets.push_back(temp);
-        else
-            enemy_bullets.push_back(temp);
-        available_bullets.pop();
-    }
     delete[] vx;
     delete[] vy;
 }
@@ -498,11 +456,10 @@ void Manager::circlebullet_set(float start_x, float start_y, int n, bool odd, bo
 //! @parameter theta 확산탄 사이의 각도(degree)
 //! @parameter n 생성할 탄의 개수
 //! @parameter is_players 탄이 플레이어의 것인지 판별하는 bool 대수
-void Manager::nwaybullet_set_degree(float start_x, float start_y, float central_angle, float theta, int n, bool is_players)
+void Manager::nwaybullet_set_degree(const float start_x, const float start_y, const float central_angle, const float theta, int n, bool is_players)
 {
-    SDL_Rectf* temp;
     //임시 기준 방향 벡터를 생성
-    float cvx, cvy;
+    float cvx = 0.0f, cvy = 0.0f;
     
     //임시 방향 벡터를 생성
     float* vx = new float[n] {};
@@ -516,18 +473,8 @@ void Manager::nwaybullet_set_degree(float start_x, float start_y, float central_
 
     //탄환 설정
     for (int i = 0; i < n; i++)
-    {
-        temp = available_bullets.top();
-        temp->x = start_x;
-        temp->y = start_y;
-        temp->set_slope(vx[i], vy[i]);
+        bullet_set(start_x, start_y, vx[i], vy[i], is_players);
 
-        if (is_players)
-            player_bullets.push_back(temp);
-        else
-            enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
-        available_bullets.pop();
-    }
     delete[] vx;
     delete[] vy;
 }
@@ -539,10 +486,8 @@ void Manager::nwaybullet_set_degree(float start_x, float start_y, float central_
 //! @parameter theta 확산탄 사이의 각도(degree)
 //! @parameter n 생성할 탄의 개수
 //! @parameter is_players 탄이 플레이어의 것인지 판별하는 bool 대수
-void Manager::nwaybullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, float theta, int n, bool is_players)
+void Manager::nwaybullet_set_coordinate(const float start_x, const float start_y, const float end_x, const float end_y, float theta, int n, bool is_players)
 {
-    SDL_Rectf* temp;
-
     //임시 기준 방향 벡터를 생성
     float cvx = 0.0f, cvy = 0.0f;
     //임시 방향 벡터를 생성
@@ -556,18 +501,8 @@ void Manager::nwaybullet_set_coordinate(float start_x, float start_y, float end_
 
     //탄환 설정
     for (int i = 0; i < n; i++)
-    {
-        temp = available_bullets.top();
-        temp->x = start_x;
-        temp->y = start_y;
-        temp->set_slope(vx[i], vy[i]);
+        bullet_set(start_x, start_y, vx[i], vy[i], is_players);
 
-        if (is_players)
-            player_bullets.push_back(temp);
-        else
-            enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
-        available_bullets.pop();
-    }
     delete[] vx;
     delete[] vy;
 }
@@ -579,10 +514,8 @@ void Manager::nwaybullet_set_coordinate(float start_x, float start_y, float end_
 //! @parameter theta 확산탄 사이의 각도(degree)
 //! @parameter n 생성할 탄의 개수
 //! @parameter is_players 탄이 플레이어의 것인지 판별하는 bool 대수
-void Manager::nwaybullet_set_slope(float start_x, float start_y, float slope_x, float slope_y, float theta, int n, bool is_players)
+void Manager::nwaybullet_set_slope(const float start_x, const float start_y, const float slope_x, const float slope_y, float theta, int n, bool is_players)
 {
-    SDL_Rectf* temp;
-
     //임시 기준 방향 벡터를 생성
     float cvx = 0.0f, cvy = 0.0f;
 
@@ -601,16 +534,7 @@ void Manager::nwaybullet_set_slope(float start_x, float start_y, float slope_x, 
     //탄환 설정
     for (int i = 0; i < n; i++)
     {
-        temp = available_bullets.top();
-        temp->x = start_x;
-        temp->y = start_y;
-        temp->set_slope(vx[i], vy[i]);
-
-        if (is_players)
-            player_bullets.push_back(temp);
-        else
-            enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
-        available_bullets.pop();
+        bullet_set(start_x, start_y, vx[i], vy[i], is_players);
     }
     delete[] vx;
     delete[] vy;

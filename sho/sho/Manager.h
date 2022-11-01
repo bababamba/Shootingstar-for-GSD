@@ -37,6 +37,8 @@ public:
 
 	//추가 : 조대훈
 	
+	//deltaTime을 리턴
+	float getdeltaTime() { return deltaTime; }
 	//도착 지점을 인수로 받는 방향탄 생성 함수
 	void directbullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, bool is_players);
 	//발사 각도를 인수로 받는 방향탄 생성 함수. 
@@ -48,7 +50,7 @@ public:
 	//중심 탄의 도착 지점을 인수로 받는 확산탄 생성 함수. 
 	void nwaybullet_set_coordinate(float start_x, float start_y, float end_x, float end_y, float theta, int n, bool is_players);
 	//중심 탄의 방향 벡터를 받는 확산탄 생성 함수. 
-	void nwaybullet_set_slope(float start_x, float start_y, float slope_x, float slope_y, float theta, int n, bool is_players);
+	void nwaybullet_set_slope(const float start_x, const float start_y, const float slope_x, const float slope_y, float theta, int n, bool is_players);
 
 private:
 	//싱글톤
@@ -93,6 +95,7 @@ private:
 	int eGunDelay[20] = { 0 };
 	float eBulSpeed = 5;
 	int eBulCount = 0;
-	unsigned int a = SDL_GetTicks();
-	unsigned int b = SDL_GetTicks();
+	unsigned int prev_time = SDL_GetTicks();
+	unsigned int current_time = SDL_GetTicks();
+	float deltaTime = 0.0f;
 };
