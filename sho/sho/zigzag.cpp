@@ -11,7 +11,7 @@ zigzag::zigzag(SDL_Renderer* M_renderer) {
 	wh[0] = 64;
 	wh[1] = 64;
 	max_hp = 2;
-	speed = 6;
+	speed = 353;
 	e_texture = SDL_CreateTextureFromSurface(M_renderer, IMG_Load("image/enemy_zigzag.png"));
 }
 
@@ -35,7 +35,7 @@ void zigzag::how_to_fire(enemy* enem) {
 		Manager::get_m()->directbullet_set_coordinate(
 			enem->e_sdl.x, enem->e_sdl.y, 
 			Manager::get_m()->get_Plr()->p_sdl.x, Manager::get_m()->get_Plr()->p_sdl.y, 
-			8, false
+			471, false
 		);
 		//방향 전환
 		float* temp = enem->e_sdl.slope;

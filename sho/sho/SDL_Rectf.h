@@ -31,14 +31,10 @@ public:
 	void set_speed(int speed1) {
 		this->speed = speed1;
 	}
-	void linear_move() {
-		x += speed * slope[0];
-		y += speed * slope[1];
-	}
-	void linear_move(int speed1) {
-		x += speed1 * slope[0];
-		y += speed1 * slope[1];
-	}
+	void linear_move();
+
+	void linear_move(int speed1);
+
 	bool is_out() {
 		return (x < - 3 * w) | (x > WINDOW_WIDTH + 2 * w) | (y < - 3 * h) | (y > WINDOW_HEIGHT + 2 * h);
 	}

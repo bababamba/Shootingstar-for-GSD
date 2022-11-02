@@ -150,6 +150,7 @@
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="middle1.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="SDL_Rectf.cpp" />
     <ClCompile Include="SDL_Rectf.h" />
     <ClCompile Include="temp.cpp" />
     <ClCompile Include="zigzag.cpp" />

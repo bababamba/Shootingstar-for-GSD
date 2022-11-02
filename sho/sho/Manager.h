@@ -102,7 +102,7 @@ private:
 	player* Plr;
 	bool pgun = false;
 	bool dir[4] = { false , false , false , false };
-	int speed = 6;
+	int speed = 353;
 
 	unsigned int prev_time = SDL_GetTicks();
 	unsigned int current_time = SDL_GetTicks();

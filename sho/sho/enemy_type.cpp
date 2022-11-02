@@ -8,7 +8,7 @@ void enemy_type::init(SDL_Rectf* rect, int* max_hp) {
 	rect->h = wh[1];
 	*max_hp = this->max_hp;
 }
-void enemy_type::move(enemy* enem) {
+void enemy_type::move(enemy* enem){
 	//자식 클래스에서 정의되지 않았다면 적들은 기본적으로 직선 이동한다
 	enem->e_sdl.linear_move(speed);
 }

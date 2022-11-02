@@ -85,13 +85,13 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         for( int i = 0; i < 3; i++ ) {
             available_items.push(new SDL_Rectf());
             available_items.top()->init(-100, -100, 64, 64, 0, 1);
-            available_items.top()->set_speed(4);
+            available_items.top()->set_speed(235);
         }
         //배경 생성
         for( int i = 2; i < 7; i++ ) { 
             background.push_back(new SDL_Rectf());
             background.back()->init(120 * (i-1), (i * i % 10) * 90, 8, 8, 0, 1);
-            background.back()->set_speed(i * i % 10 / 4);
+            background.back()->set_speed(i * i % 588 / 4);
         }
         //스테이지 생성 관련
         stage_load();
@@ -307,8 +307,8 @@ int Manager::amain(int argv, char** args) {
     while (running) {
         current_time = SDL_GetTicks();
         if (current_time-prev_time > 1000 / 60.0) {
-            deltaTime = (current_time - prev_time) / 100;
-            //★run_time += deltaTime;    
+            deltaTime = (current_time - prev_time) / 1000.0;
+            run_time += deltaTime;    
             prev_time = current_time;
             //배경 이동
             size = background.size();
@@ -377,13 +377,13 @@ int Manager::amain(int argv, char** args) {
                     }
                 }
                 if( (dir[0] == true) & (Plr->p_sdl.y > 0) )
-                    Plr->p_sdl.y -= speed;
+                    Plr->p_sdl.y -= speed * deltaTime;
                 if( (dir[2] == true) & (Plr->p_sdl.y < WINDOW_HEIGHT - Plr->p_sdl.h) )
-                    Plr->p_sdl.y += speed;
+                    Plr->p_sdl.y += speed * deltaTime;
                 if( (dir[1] == true) & (Plr->p_sdl.x < WINDOW_WIDTH - Plr->p_sdl.w) )
-                    Plr->p_sdl.x += speed;
+                    Plr->p_sdl.x += speed * deltaTime;
                 if( (dir[3] == true) & (Plr->p_sdl.x > 0) )
-                    Plr->p_sdl.x -= speed;
+                    Plr->p_sdl.x -= speed * deltaTime;
             }
             //플레이어 공격
             Plr->attack_delay_decrease();

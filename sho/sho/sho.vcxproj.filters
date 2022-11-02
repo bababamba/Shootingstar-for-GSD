@@ -48,6 +48,9 @@
     <ClCompile Include="charger.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SDL_Rectf.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Manager.h">

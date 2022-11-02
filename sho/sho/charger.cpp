@@ -10,7 +10,7 @@ charger::charger(SDL_Renderer* M_renderer) {
 	wh[0] = 64;
 	wh[1] = 64;
 	max_hp = 3;
-	speed = 10;
+	speed = 588;
 	e_texture = SDL_CreateTextureFromSurface(M_renderer, IMG_Load("image/enemy_charger.png"));
 }
 

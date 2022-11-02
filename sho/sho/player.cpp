@@ -2,7 +2,7 @@
 #include "Manager.h"
 #include "player.h"
 
-#define BULLET_SPEED 16
+#define BULLET_SPEED 941
 
 player::player() { 
 	p_sdl = SDL_Rectf();
