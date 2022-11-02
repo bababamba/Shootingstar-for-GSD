@@ -12,6 +12,7 @@
 #include "SDL_Rectf.h"
 #include "basic_enemy.h"
 #include "zigzag.h"
+#include "charger.h"
 #include "middle1.h"
 #include "Stage_Reader.h"
 #include "player.h"
@@ -60,6 +61,7 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         bultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/Bullet.png"));
         ebultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/enemy_bullet.png"));
         item_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/item.png"));
+        back_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/background1.png"));
         //플레이어 생성
         player* temp_p = new player();
         Plr = temp_p;
@@ -71,17 +73,25 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         }
         //적 생성
         //★화면에 최대로 등장하는 적 개수만큼 enemy가 생성되어 있어야 한다, 추후 적 개수가 확정되면 이 주석을 지울 것
-        for( int i = 0; i < 10; i++ ) {
+        for( int i = 0; i < 15; i++ ) {
             available_enemy.push(new enemy());
         }
         //enemy_type 생성
         srct_basic = new basic(renderer);
         srct_zigzag = new zigzag(renderer);
+        srct_charger = new charger(renderer);
         srct_middle1 = new middle1(renderer);
         //item 생성
         for( int i = 0; i < 3; i++ ) {
             available_items.push(new SDL_Rectf());
             available_items.top()->init(-100, -100, 64, 64, 0, 1);
+            available_items.top()->set_speed(4);
+        }
+        //배경 생성
+        for( int i = 2; i < 7; i++ ) { 
+            background.push_back(new SDL_Rectf());
+            background.back()->init(120 * (i-1), (i * i % 10) * 90, 8, 8, 0, 1);
+            background.back()->set_speed(i * i % 10 / 4);
         }
         //스테이지 생성 관련
         stage_load();
@@ -159,8 +169,16 @@ void Manager::render() {
     SDL_Rect temp;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //Black Color
     SDL_RenderClear(renderer);
+    //배경 출력, 먼저 출력된 물체가 뒤쪽에 렌더링된다
+    size = background.size();
+    for( int i = 0; i < size; i++ ) { 
+        temp.x = round(background[i]->x);
+        temp.y = round(background[i]->y);
+        temp.w = round(background[i]->w);
+        temp.h = round(background[i]->h);
+        SDL_RenderCopy(renderer, back_texture, NULL, &temp);
+    }
     //적 출력
-    
     size = cur_enemy.size();
     for( int i = 0; i < size; i++ ) {
         temp.x = round(cur_enemy[i]->e_sdl.x);
@@ -222,11 +240,10 @@ void Manager::bullet_set(const float x, const float y, const float slope_x, cons
     temp->set_slope(slope_x, slope_y);
     temp->set_speed(speed);
 
-    //★발사 주체의 rect를 아예 받아와서 width, height까지 계산하여 정중앙에서 총알을 생성토록 변경할 것
     if( is_players )
         player_bullets.push_back(temp);
     else
-        enemy_bullets.push_back(temp);	//★추후 enemy_bullet 이동이 구현되면 그쪽 벡터로 이관
+        enemy_bullets.push_back(temp);
     available_bullets.pop();
 }
 
@@ -237,11 +254,7 @@ void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enem
         return;
     }
     cur_enemy.push_back(available_enemy.top());
-    cur_enemy.back()->e_sdl.x = x;
-    cur_enemy.back()->e_sdl.y = y;
-    cur_enemy.back()->e_sdl.set_slope(slope_x, slope_y);
-    cur_enemy.back()->set_has_item(item);
-    switch(enemy_code) { 
+    switch( enemy_code ) {
         case 1:
             cur_enemy.back()->set_type(srct_basic);
             break;
@@ -249,9 +262,16 @@ void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enem
             cur_enemy.back()->set_type(srct_zigzag);
             break;
         case 3:
+            cur_enemy.back()->set_type(srct_charger);
+            break;
+        case 4:
             cur_enemy.back()->set_type(srct_middle1);
             break;
-    }
+    }    
+    cur_enemy.back()->e_sdl.x = x - cur_enemy.back()->get_type()->get_wh()[0] / 2;
+    cur_enemy.back()->e_sdl.y = y - cur_enemy.back()->get_type()->get_wh()[1] / 2;
+    cur_enemy.back()->e_sdl.set_slope(slope_x, slope_y);
+    cur_enemy.back()->set_has_item(item);
     available_enemy.pop();
 }
 
@@ -290,7 +310,15 @@ int Manager::amain(int argv, char** args) {
             deltaTime = (current_time - prev_time) / 100;
             //★run_time += deltaTime;    
             prev_time = current_time;
-            
+            //배경 이동
+            size = background.size();
+            for( SDL_Rectf* s : background ) { 
+                s->linear_move();
+                if( s->is_out() ) { 
+                    s->y = -10;
+                }
+            }
+            //플레이어 입력
             while( SDL_PollEvent(&event) ) {
                 switch( event.type ) {
                     case SDL_QUIT:
@@ -340,14 +368,23 @@ int Manager::amain(int argv, char** args) {
                 }
             }
             //플레이어 이동
-            if( (dir[0] == true) & (Plr->p_sdl.y > 0) )
-                Plr->p_sdl.y -= speed;
-            if( (dir[2] == true) & (Plr->p_sdl.y < WINDOW_HEIGHT - Plr->p_sdl.h) )
-                Plr->p_sdl.y += speed;
-            if( (dir[1] == true) & (Plr->p_sdl.x < WINDOW_WIDTH - Plr->p_sdl.w) )
-                Plr->p_sdl.x += speed;
-            if( (dir[3] == true) & (Plr->p_sdl.x > 0) )
-                Plr->p_sdl.x -= speed;
+            if( game ) {
+                size = cur_enemy.size();
+                for( int i = 0; i < size; i++ ) { 
+                    if( game & rectcolf(cur_enemy[i]->e_sdl, Plr->p_sdl) ) {
+                        Plr->die();
+                        game = false;
+                    }
+                }
+                if( (dir[0] == true) & (Plr->p_sdl.y > 0) )
+                    Plr->p_sdl.y -= speed;
+                if( (dir[2] == true) & (Plr->p_sdl.y < WINDOW_HEIGHT - Plr->p_sdl.h) )
+                    Plr->p_sdl.y += speed;
+                if( (dir[1] == true) & (Plr->p_sdl.x < WINDOW_WIDTH - Plr->p_sdl.w) )
+                    Plr->p_sdl.x += speed;
+                if( (dir[3] == true) & (Plr->p_sdl.x > 0) )
+                    Plr->p_sdl.x -= speed;
+            }
             //플레이어 공격
             Plr->attack_delay_decrease();
             if( pgun ) { 
@@ -359,7 +396,7 @@ int Manager::amain(int argv, char** args) {
                 cur_enemy[i]->move();
                 cur_enemy[i]->fire();
                 if( cur_enemy[i]->e_sdl.is_out() ) {
-                    cur_enemy[i]->set_type(nullptr);
+                    cur_enemy[i]->die();
                     available_enemy.push(cur_enemy[i]);
                     cur_enemy.erase(cur_enemy.begin() + i);
                     i--; size--;
@@ -393,8 +430,7 @@ int Manager::amain(int argv, char** args) {
             for( int i = 0; i < size; i++ ) {
                 enemy_bullets[i]->linear_move();
                 if( enemy_bullets[i]->is_out() | rectcolf(*enemy_bullets[i], Plr->p_sdl) ) {
-                    if( rectcolf(*enemy_bullets[i], Plr->p_sdl) ) {
-                        cout << "player is hit by enemy_bullet" << endl;
+                    if( game & rectcolf(*enemy_bullets[i], Plr->p_sdl) ) {
                         Plr->die();
                         game = false;
                     }
@@ -406,7 +442,7 @@ int Manager::amain(int argv, char** args) {
             //아이템 이동, 플레이어가 획득했는지 확인
             size = cur_items.size();
             for( int i = 0; i < size; i++ ) {
-                cur_items[i]->linear_move(1);
+                cur_items[i]->linear_move();
                 if( cur_items[i]->is_out() | rectcolf( *cur_items[i], Plr->p_sdl ) ) {
                     if( rectcolf(*cur_items[i], Plr->p_sdl) ) { 
                         Plr->increse_attack_level(1);
@@ -418,7 +454,8 @@ int Manager::amain(int argv, char** args) {
             }
             //json Document에 따른 적 생성
             if( is_enemy_generating ){
-                if( current_time > cur_stage["stage"][cur_enemy_num][0].GetInt() ) {
+                if( current_time / 100 > cur_stage["stage"][cur_enemy_num][0].GetInt() ) {
+                    cout << "testing : " << cur_stage["stage"][cur_enemy_num][0].GetInt() << endl;
                     enemy_set(
                         cur_stage["stage"][cur_enemy_num][1].GetInt(),
                         cur_stage["stage"][cur_enemy_num][2].GetInt(),

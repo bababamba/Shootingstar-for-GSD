@@ -17,6 +17,7 @@ public:
 	virtual void move(enemy* enem);
 	virtual void how_to_fire(enemy* enem);
 	SDL_Texture* get_texture();
+	int* get_wh();
 
 	virtual void type_test() { cout << "it's enemy_type\n"; }
 };

@@ -20,13 +20,24 @@ void zigzag::move(enemy* enem) {
 	int* fd = enem->get_fire_delay();
 	if( enem->get_SA_var2() == -1 ) { 
 		enem->set_SA_bool((enem->e_sdl.x > 0) & (enem->e_sdl.x < WINDOW_WIDTH));
-		fd[0] = 30;
+		fd[0] = 60;
 		enem->set_SA_var2(0);
 	}
-	if ( fd[0] > 0) {
+	if ( fd[0] > 30) {
 		enem->e_sdl.linear_move(speed);
-	}else if (speed != 0) {
-		speed = 0;
+	} else if( fd[0] < 0 ) { 
+		fd[0] = 60;
+	}
+}
+
+void zigzag::how_to_fire(enemy* enem) {
+	if( enem->get_fire_delay()[0] == 30 ) {
+		Manager::get_m()->directbullet_set_coordinate(
+			enem->e_sdl.x, enem->e_sdl.y, 
+			Manager::get_m()->get_Plr()->p_sdl.x, Manager::get_m()->get_Plr()->p_sdl.y, 
+			8, false
+		);
+		//방향 전환
 		float* temp = enem->e_sdl.slope;
 		if( abs(temp[0]) == abs(temp[1]) )
 			if( enem->get_SA_bool() )
@@ -37,18 +48,5 @@ void zigzag::move(enemy* enem) {
 			enem->e_sdl.set_slope(temp[0], -temp[1]);
 		else
 			enem->e_sdl.set_slope(-temp[0], temp[1]);
-	} else if( fd[0] < -30 ) { 
-		fd[0] = 30;
-		speed = 6;
-	}
-}
-
-void zigzag::how_to_fire(enemy* enem) {
-	if( enem->get_fire_delay()[0] == -10 ) {
-		Manager::get_m()->directbullet_set_coordinate(
-			enem->e_sdl.x, enem->e_sdl.y, 
-			Manager::get_m()->get_Plr()->p_sdl.x, Manager::get_m()->get_Plr()->p_sdl.y, 
-			8, false
-		);
 	}
 }

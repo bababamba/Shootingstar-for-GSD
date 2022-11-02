@@ -13,9 +13,13 @@ void enemy_type::move(enemy* enem) {
 	enem->e_sdl.linear_move(speed);
 }
 void enemy_type::how_to_fire(enemy* enem) {
-	//이 함수가 인자로 받는 배열 크기는, enemy가 가질 수 있는 공격 방식의 개수와 동일하도록 조정한다
-	cout << "fire method is called by parent enemy_type. please check the method.";
+	//cout << "fire method is called by parent enemy_type. please check the method." << endl;
 }
+
+int* enemy_type::get_wh() { 
+	return wh;
+}
+
 SDL_Texture* enemy_type::get_texture() {
 	return e_texture;
 }

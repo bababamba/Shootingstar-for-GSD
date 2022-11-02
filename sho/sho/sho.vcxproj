@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="basic_enemy.cpp" />
     <ClCompile Include="BulletVectorCalculator.cpp" />
+    <ClCompile Include="charger.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy_type.cpp" />
     <ClCompile Include="Manager.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="basic_enemy.h" />
     <ClInclude Include="BulletVectorCalculator.h" />
+    <ClInclude Include="charger.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemy_type.h" />
     <ClInclude Include="Manager.h" />

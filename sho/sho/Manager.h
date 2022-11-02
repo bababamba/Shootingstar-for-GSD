@@ -17,6 +17,7 @@ class enemy;
 class player;
 struct basic;
 struct zigzag;
+struct charger;
 struct middle1;
 class Manager {
 public:
@@ -76,10 +77,12 @@ private:
 	SDL_Texture* bultexture;
 	SDL_Texture* ebultexture;
 	SDL_Texture* item_texture;
+	SDL_Texture* back_texture;
 
 	//적 종류, enemy를 배치할 때 set_type에 매개변수로 집어넣어 사용한다
 	basic* srct_basic;
 	zigzag* srct_zigzag;
+	charger* srct_charger;
 	middle1* srct_middle1;
 
 	//플레이어 혹은 상대방이 공격한다면, available bullets에서 pop한 Rect를 공격한 객체에 해당하는 list로 옮겨준다
@@ -93,6 +96,8 @@ private:
 
 	stack<SDL_Rectf*> available_items;
 	vector<SDL_Rectf*> cur_items;
+
+	vector<SDL_Rectf*> background;
 
 	player* Plr;
 	bool pgun = false;
