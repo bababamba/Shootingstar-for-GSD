@@ -10,7 +10,7 @@ charger::charger(SDL_Renderer* M_renderer) {
 	wh[0] = 64;
 	wh[1] = 64;
 	max_hp = 3;
-	speed = 588;
+	speed = 600;
 	e_texture = SDL_CreateTextureFromSurface(M_renderer, IMG_Load("image/enemy_charger.png"));
 }
 
@@ -23,7 +23,7 @@ void charger::move(enemy* enem) {
 	enem->e_sdl.linear_move();
 	if( (enem->get_fire_delay()[0] < 0) & (enem->get_SA_var1() > 0) ) {
 		enem->get_fire_delay()[0] = 5;
-		enem->set_SA_var1(enem->get_SA_var1() - 1);
+		enem->set_SA_var1(enem->get_SA_var1() - 60);
 		enem->e_sdl.set_speed(enem->get_SA_var1());
 	} else if( (enem->get_fire_delay()[0] < -30) & (enem->get_SA_var1() == 0) ) {
 		enem->set_SA_var1(-1);

@@ -91,7 +91,7 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         for( int i = 2; i < 7; i++ ) { 
             background.push_back(new SDL_Rectf());
             background.back()->init(120 * (i-1), (i * i % 10) * 90, 8, 8, 0, 1);
-            background.back()->set_speed(i * i % 588 / 4);
+            background.back()->set_speed((i * 77) % 60);
         }
         //스테이지 생성 관련
         stage_load();
@@ -121,12 +121,14 @@ void Manager::init() {
         enemy_bullets[i]->init(-100, -100, 8, 8);
         available_bullets.push(enemy_bullets[i]);
         enemy_bullets.erase(enemy_bullets.begin() + i);
+        i--; size--;
     }
     size = player_bullets.size();
     for( int i = 0; i < size; i++ ) {
         player_bullets[i]->init(-100, -100, 8, 8);
         available_bullets.push(player_bullets[i]);
-        enemy_bullets.erase(player_bullets.begin() + i);
+        player_bullets.erase(player_bullets.begin() + i);
+        i--; size--;
     }
     //적 초기화
     size = cur_enemy.size();
@@ -135,6 +137,7 @@ void Manager::init() {
         cur_enemy[i]->e_sdl.init(-100, -100, 0, 0);
         available_enemy.push(cur_enemy[i]);
         cur_enemy.erase(cur_enemy.begin() + i);
+        i--; size--;
     }
     //item 초기화
     size = cur_items.size();
@@ -142,6 +145,7 @@ void Manager::init() {
         cur_items[i]->init(-100, -100, 64, 64, 0, 1);
         available_items.push(cur_items[i]);
         cur_items.erase(cur_items.begin() + i);
+        i--; size--;
     }
     //스테이지 생성 관련
     cur_enemy_num = 0;
@@ -290,14 +294,15 @@ void Manager::stage_load() {
     file_parse("stage.txt", &cur_stage);
     assert(cur_stage["stage"].IsArray());
     last_enemy_num = cur_stage["stage"].Size();
-    //assert(cur_stage["test1"].IsString());
-    //printf( cur_stage["test1"].GetString());
+    /*
+    assert(cur_stage["test"].IsArray());
+    last_enemy_num = cur_stage["test"].Size();
+    */
 }
 
 //main 메서드를 특정 클래스 내부에 위치하게 하지 말 것
 int Manager::amain(int argv, char** args) {   
     int size=0; int size2=0;
-    //★게임이 재시작될 때 게임시간 또한 초기화되어야 하지만 SDL의 GetTick은 window를 새로고침하지 않는 이상 초기화할 수 없다, 따라서 run_time에 delta_time을 더한 것을 게임시간으로 사용해 이를 해결한다
     float run_time = 0;
     bool game = true;
     bool running = true;
@@ -316,6 +321,7 @@ int Manager::amain(int argv, char** args) {
                 s->linear_move();
                 if( s->is_out() ) { 
                     s->y = -10;
+                    s->speed = (s->speed + 14) % 40;
                 }
             }
             //플레이어 입력
@@ -345,7 +351,9 @@ int Manager::amain(int argv, char** args) {
                             pgun = true;
                         }
                         if( event.key.keysym.sym == SDLK_r ) {
-                            //게임 재시작
+                            init();
+                            run_time = 0;
+                            game = true;
                         }
                         break;
                     case SDL_KEYUP:
@@ -454,8 +462,7 @@ int Manager::amain(int argv, char** args) {
             }
             //json Document에 따른 적 생성
             if( is_enemy_generating ){
-                if( current_time / 100 > cur_stage["stage"][cur_enemy_num][0].GetInt() ) {
-                    cout << "testing : " << cur_stage["stage"][cur_enemy_num][0].GetInt() << endl;
+                if( run_time > cur_stage["stage"][cur_enemy_num][0].GetFloat() ) {
                     enemy_set(
                         cur_stage["stage"][cur_enemy_num][1].GetInt(),
                         cur_stage["stage"][cur_enemy_num][2].GetInt(),
@@ -464,6 +471,16 @@ int Manager::amain(int argv, char** args) {
                         cur_stage["stage"][cur_enemy_num][5].GetInt(),
                         cur_stage["stage"][cur_enemy_num][6].GetBool()
                     );
+                    /*
+                    enemy_set(
+                        cur_stage["test"][cur_enemy_num][1].GetInt(),
+                        cur_stage["test"][cur_enemy_num][2].GetInt(),
+                        cur_stage["test"][cur_enemy_num][3].GetInt(),
+                        cur_stage["test"][cur_enemy_num][4].GetInt(),
+                        cur_stage["test"][cur_enemy_num][5].GetInt(),
+                        cur_stage["test"][cur_enemy_num][6].GetBool()
+                    );
+                    */
                     cur_enemy_num++;
                     if( cur_enemy_num >= last_enemy_num ) {
                         is_enemy_generating = false;

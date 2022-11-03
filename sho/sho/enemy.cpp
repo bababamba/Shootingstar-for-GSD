@@ -25,21 +25,22 @@ bool enemy::hit() {
 
 void enemy::die() { 
 	e_type = nullptr;
-	SA_var1 = -1;
-	SA_var2 = -1;
-	SA_bool = false;
 	if( has_item ) { 
 		Manager::get_m()->item_set(e_sdl.x, e_sdl.y);
 	}
 }
 
 void enemy::set_type(enemy_type* para_type) {
-	if( para_type == nullptr ) { 
+	for( int i = 0; i < 4;i++ ) {
+		fire_delay[i] = 5;
+	}
+	SA_var1 = -1;
+	SA_var2 = -1;
+	SA_bool = false;
+	e_sdl.set_speed(0);
+	if( para_type == nullptr ) {
 		e_type = nullptr;
 		return;
-	}
-	for( int i : fire_delay ) {
-		i = 5;
 	}
 	e_type = para_type;
 	e_type->init(&e_sdl, &hp);
