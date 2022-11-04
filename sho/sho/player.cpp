@@ -26,19 +26,19 @@ void player::attack() {
 		switch( attack_level ) { 
 			case 3:
 				//4단계 공격
-				Manager::get_m()->bullet_set(p_sdl.x, p_sdl.y + 32, 0, -1, BULLET_SPEED, true);
-				Manager::get_m()->bullet_set(p_sdl.x + 64, p_sdl.y + 32, 0, -1, BULLET_SPEED, true);
+				Manager::get_m()->bullet_set(p_sdl.x, p_sdl.y + 28, 0, -1, BULLET_SPEED, true);
+				Manager::get_m()->bullet_set(p_sdl.x + 64, p_sdl.y + 28, 0, -1, BULLET_SPEED, true);
 			case 2:
 				//3단계 공격
-				Manager::get_m()->directbullet_set_degree(p_sdl.x + 32, p_sdl.y + 32, 255, BULLET_SPEED, true);
-				Manager::get_m()->directbullet_set_degree(p_sdl.x + 32, p_sdl.y + 32, 285, BULLET_SPEED, true);
+				Manager::get_m()->directbullet_set_degree(p_sdl.x + 28, p_sdl.y + 28, 255, BULLET_SPEED, true);
+				Manager::get_m()->directbullet_set_degree(p_sdl.x + 28, p_sdl.y + 28, 285, BULLET_SPEED, true);
 			case 1:
 				//2단계 공격
-				Manager::get_m()->directbullet_set_degree(p_sdl.x + 32, p_sdl.y + 32, 240, BULLET_SPEED, true);
-				Manager::get_m()->directbullet_set_degree(p_sdl.x + 32, p_sdl.y + 32, 300, BULLET_SPEED, true);
+				Manager::get_m()->directbullet_set_degree(p_sdl.x + 28, p_sdl.y + 28, 240, BULLET_SPEED, true);
+				Manager::get_m()->directbullet_set_degree(p_sdl.x + 28, p_sdl.y + 28, 300, BULLET_SPEED, true);
 			default:
 				//1단계 공격
-				Manager::get_m()->bullet_set(p_sdl.x + 32, p_sdl.y + 32, 0, -1, BULLET_SPEED, true);
+				Manager::get_m()->bullet_set(p_sdl.x + 28, p_sdl.y + 28, 0, -1, BULLET_SPEED, true);
 				attack_delay = 10;
 		}
 	}

@@ -51,6 +51,9 @@
     <ClCompile Include="SDL_Rectf.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BEEG.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Manager.h">
@@ -81,6 +84,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="charger.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BEEG.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

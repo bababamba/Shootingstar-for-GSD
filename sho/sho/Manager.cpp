@@ -14,6 +14,7 @@
 #include "zigzag.h"
 #include "charger.h"
 #include "middle1.h"
+#include "BEEG.h"
 #include "Stage_Reader.h"
 #include "player.h"
 #include "BulletVectorCalculator.h"
@@ -81,6 +82,7 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         srct_zigzag = new zigzag(renderer);
         srct_charger = new charger(renderer);
         srct_middle1 = new middle1(renderer);
+        srct_BEEG = new BEEG(renderer);
         //item 생성
         for( int i = 0; i < 3; i++ ) {
             available_items.push(new SDL_Rectf());
@@ -167,7 +169,21 @@ bool Manager::rectcolf(SDL_Rectf a, SDL_Rectf b)
     }
     return false;
 }
-
+bool Manager::rectcolp(SDL_Rectf a, SDL_Rectf b)
+{
+    float x1 = a.x+12;
+    float w1 = 20;
+    float y1 = a.y+12;
+    float h1 = 20;
+    float x2 = b.x;
+    float w2 = b.w;
+    float y2 = b.y;
+    float h2 = b.h;
+    if (x1 + w1 >= x2 && x1 <= x2 + w2 && y1 + h1 >= y2 && y1 <= y2 + h2) {
+        return true;
+    }
+    return false;
+}
 void Manager::render() {
     int size;
     SDL_Rect temp;
@@ -270,6 +286,9 @@ void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enem
             break;
         case 4:
             cur_enemy.back()->set_type(srct_middle1);
+            break;
+        case 6:
+            cur_enemy.back()->set_type(srct_BEEG);
             break;
     }    
     cur_enemy.back()->e_sdl.x = x - cur_enemy.back()->get_type()->get_wh()[0] / 2;
@@ -437,8 +456,8 @@ int Manager::amain(int argv, char** args) {
             size = enemy_bullets.size();
             for( int i = 0; i < size; i++ ) {
                 enemy_bullets[i]->linear_move();
-                if( enemy_bullets[i]->is_out() | rectcolf(*enemy_bullets[i], Plr->p_sdl) ) {
-                    if( game & rectcolf(*enemy_bullets[i], Plr->p_sdl) ) {
+                if( enemy_bullets[i]->is_out() | rectcolp(Plr->p_sdl , *enemy_bullets[i]) ) {
+                    if( game & rectcolp(Plr->p_sdl,*enemy_bullets[i]) ) {
                         Plr->die();
                         game = false;
                     }

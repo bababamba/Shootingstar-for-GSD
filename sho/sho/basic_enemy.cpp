@@ -16,7 +16,7 @@ basic::basic(SDL_Renderer* M_renderer) {
 void basic::how_to_fire(enemy* enem) {
 	if( enem->get_fire_delay()[0] <= 0 ) {
 
-		Manager::get_m()->bullet_set(enem->e_sdl.x + wh[0] / 2, enem->e_sdl.y + wh[1] / 2, 0, 1, 471, false);
+		Manager::get_m()->bullet_set(enem->e_sdl.x + 28, enem->e_sdl.y + 28 / 2, 0, 1, 471, false);
 		enem->get_fire_delay()[0] = 60;
 	}
 }

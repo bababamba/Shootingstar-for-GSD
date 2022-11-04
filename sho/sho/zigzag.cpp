@@ -33,8 +33,8 @@ void zigzag::move(enemy* enem) {
 void zigzag::how_to_fire(enemy* enem) {
 	if( enem->get_fire_delay()[0] == 30 ) {
 		Manager::get_m()->directbullet_set_coordinate(
-			enem->e_sdl.x, enem->e_sdl.y, 
-			Manager::get_m()->get_Plr()->p_sdl.x, Manager::get_m()->get_Plr()->p_sdl.y, 
+			enem->e_sdl.x+28, enem->e_sdl.y+28, 
+			Manager::get_m()->get_Plr()->p_sdl.x+28, Manager::get_m()->get_Plr()->p_sdl.y+28, 
 			471, false
 		);
 		//방향 전환
