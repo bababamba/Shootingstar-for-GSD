@@ -20,3 +20,13 @@ void basic::how_to_fire(enemy* enem) {
 		enem->get_fire_delay()[0] = 60;
 	}
 }
+
+void basic::render(SDL_Rectf& sdl)
+{
+	SDL_Rect temp;
+	temp.x = round(sdl.x);
+	temp.y = round(sdl.y);
+	temp.w = round(sdl.w);
+	temp.h = round(sdl.h);
+	SDL_RenderCopy(Manager::get_m()->get_renderer(), e_texture, NULL, &temp);
+}

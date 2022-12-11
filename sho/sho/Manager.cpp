@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stack>
 #include <vector>
+#include "Bullet.h"
 #include "enemy.h"
 #include "Manager.h"
 #include "SDL_Rectf.h"
@@ -67,9 +68,10 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         player* temp_p = new player();
         Plr = temp_p;
         Plr->init();
+        Plr->SetTexture(texture);
         //총알 생성
         for( int i = 0; i < 100; i++ ) {
-            available_bullets.push(new SDL_Rectf);
+            available_bullets.push(new Bullet);
             available_bullets.top()->init(-100, -100, 8, 8);
         }
         //적 생성
@@ -121,6 +123,7 @@ void Manager::init() {
     size = enemy_bullets.size();
     for( int i = 0; i < size; i++ ) {
         enemy_bullets[i]->init(-100, -100, 8, 8);
+        //enemy_bullets[i]->SetTexture(ebultexture);
         available_bullets.push(enemy_bullets[i]);
         enemy_bullets.erase(enemy_bullets.begin() + i);
         i--; size--;
@@ -128,6 +131,7 @@ void Manager::init() {
     size = player_bullets.size();
     for( int i = 0; i < size; i++ ) {
         player_bullets[i]->init(-100, -100, 8, 8);
+        //player_bullets[i]->SetTexture(bultexture);
         available_bullets.push(player_bullets[i]);
         player_bullets.erase(player_bullets.begin() + i);
         i--; size--;
@@ -169,21 +173,7 @@ bool Manager::rectcolf(SDL_Rectf a, SDL_Rectf b)
     }
     return false;
 }
-bool Manager::rectcolp(SDL_Rectf a, SDL_Rectf b)
-{
-    float x1 = a.x+12;
-    float w1 = 20;
-    float y1 = a.y+12;
-    float h1 = 20;
-    float x2 = b.x;
-    float w2 = b.w;
-    float y2 = b.y;
-    float h2 = b.h;
-    if (x1 + w1 >= x2 && x1 <= x2 + w2 && y1 + h1 >= y2 && y1 <= y2 + h2) {
-        return true;
-    }
-    return false;
-}
+
 void Manager::render() {
     int size;
     SDL_Rect temp;
@@ -201,29 +191,17 @@ void Manager::render() {
     //적 출력
     size = cur_enemy.size();
     for( int i = 0; i < size; i++ ) {
-        temp.x = round(cur_enemy[i]->e_sdl.x);
-        temp.y = round(cur_enemy[i]->e_sdl.y);
-        temp.w = round(cur_enemy[i]->e_sdl.w);
-        temp.h = round(cur_enemy[i]->e_sdl.h);
-        SDL_RenderCopy(renderer, cur_enemy[i]->get_type()->get_texture(), NULL, &temp);
+        cur_enemy[i]->render();
     }
     //적 총알 출력
     size = enemy_bullets.size();
     for( int i = 0; i < size; i++ ) {
-        temp.x = round(enemy_bullets[i]->x);
-        temp.y = round(enemy_bullets[i]->y);
-        temp.w = round(enemy_bullets[i]->w);
-        temp.h = round(enemy_bullets[i]->h);
-        SDL_RenderCopy(renderer, ebultexture, NULL, &temp);
+        enemy_bullets[i]->render();
     }
     //플레이어 총알 출력
     size = player_bullets.size();
     for( int i = 0; i < size; i++ ) {
-        temp.x = round(player_bullets[i]->x);
-        temp.y = round(player_bullets[i]->y);
-        temp.w = round(player_bullets[i]->w);
-        temp.h = round(player_bullets[i]->h);
-        SDL_RenderCopy(renderer, bultexture, NULL, &temp);
+        player_bullets[i]->render();
     }
     //아이템 출력
     size = cur_items.size();
@@ -235,11 +213,7 @@ void Manager::render() {
         SDL_RenderCopy(renderer, item_texture, NULL, &temp);
     }
     //플레이어 출력
-    temp.x = round(Plr->p_sdl.x);
-    temp.y = round(Plr->p_sdl.y);
-    temp.w = round(Plr->p_sdl.w);
-    temp.h = round(Plr->p_sdl.h);
-    SDL_RenderCopy(renderer, texture, NULL, &temp);
+    Plr->render();
     SDL_RenderPresent(renderer);
 }
 
@@ -254,16 +228,21 @@ void Manager::bullet_set(const float x, const float y, const float slope_x, cons
         cout << "bullet number limitation" << endl;
         return;
     }
-    SDL_Rectf* temp = available_bullets.top();
-    temp->x = x;
-    temp->y = y;
-    temp->set_slope(slope_x, slope_y);
-    temp->set_speed(speed);
+    Bullet* temp = available_bullets.top();
+    temp->b_sdl.x = x;
+    temp->b_sdl.y = y;
+    temp->b_sdl.set_slope(slope_x, slope_y);
+    temp->b_sdl.set_speed(speed);
 
-    if( is_players )
+    if (is_players)
+    {
+        temp->SetTexture(bultexture);
         player_bullets.push_back(temp);
-    else
+    }
+    else {
+        temp->SetTexture(ebultexture);
         enemy_bullets.push_back(temp);
+    }
     available_bullets.pop();
 }
 
@@ -403,14 +382,24 @@ int Manager::amain(int argv, char** args) {
                         game = false;
                     }
                 }
+                float PLAYER_TEMP_X = 0, PLAYER_TEMP_Y = 0;
                 if( (dir[0] == true) & (Plr->p_sdl.y > 0) )
-                    Plr->p_sdl.y -= speed * deltaTime;
+                    PLAYER_TEMP_Y -= 1;
                 if( (dir[2] == true) & (Plr->p_sdl.y < WINDOW_HEIGHT - Plr->p_sdl.h) )
-                    Plr->p_sdl.y += speed * deltaTime;
+                    PLAYER_TEMP_Y += 1;
                 if( (dir[1] == true) & (Plr->p_sdl.x < WINDOW_WIDTH - Plr->p_sdl.w) )
-                    Plr->p_sdl.x += speed * deltaTime;
+                    PLAYER_TEMP_X += 1;
                 if( (dir[3] == true) & (Plr->p_sdl.x > 0) )
-                    Plr->p_sdl.x -= speed * deltaTime;
+                    PLAYER_TEMP_X -= 1;
+                
+                if ((PLAYER_TEMP_X != 0) && (PLAYER_TEMP_Y != 0))
+                {
+                    PLAYER_TEMP_X /= sqrt(2);
+                    PLAYER_TEMP_Y /= sqrt(2);
+                }
+
+                Plr->p_sdl.x += speed * deltaTime * PLAYER_TEMP_X;
+                Plr->p_sdl.y += speed * deltaTime * PLAYER_TEMP_Y;
             }
             //플레이어 공격
             Plr->attack_delay_decrease();
@@ -434,9 +423,9 @@ int Manager::amain(int argv, char** args) {
             size2 = cur_enemy.size();
             for( int i = 0; i < size; i++ ) {
                 collision_chk = false;
-                player_bullets[i]->linear_move();
+                player_bullets[i]->move();
                 for( int j = 0; j < size2; j++ ) {
-                    if( rectcolf(*player_bullets[i], cur_enemy[j]->e_sdl) ) {
+                    if( rectcolf(player_bullets[i]->getCollisonRectf(), cur_enemy[j]->e_sdl) ) {
                         collision_chk = true;
                         if( cur_enemy[j]->hit() ) { 
                             available_enemy.push(cur_enemy[j]);
@@ -446,7 +435,7 @@ int Manager::amain(int argv, char** args) {
                         break;
                     }
                 }
-                if( player_bullets[i]->is_out() | collision_chk ) {
+                if( player_bullets[i]->b_sdl.is_out() | collision_chk ) {
                     available_bullets.push(player_bullets[i] );
                     player_bullets.erase(player_bullets.begin() + i);
                     i--; size--;
@@ -455,9 +444,9 @@ int Manager::amain(int argv, char** args) {
             //적 총알 이동, 플레이어가 맞았는지 확인
             size = enemy_bullets.size();
             for( int i = 0; i < size; i++ ) {
-                enemy_bullets[i]->linear_move();
-                if( enemy_bullets[i]->is_out() | rectcolp(Plr->p_sdl , *enemy_bullets[i]) ) {
-                    if( game & rectcolp(Plr->p_sdl,*enemy_bullets[i]) ) {
+                enemy_bullets[i]->move();
+                if( enemy_bullets[i]->b_sdl.is_out() | rectcolf(Plr->getCollisonRectf() , enemy_bullets[i]->getCollisonRectf()) ) {
+                    if( game & rectcolf(Plr->getCollisonRectf(),enemy_bullets[i]->getCollisonRectf()) ) {
                         Plr->die();
                         game = false;
                     }

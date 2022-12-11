@@ -31,3 +31,13 @@ void charger::move(enemy* enem) {
 		enem->e_sdl.set_slope(Manager::get_m()->get_Plr()->p_sdl.x - enem->e_sdl.x, Manager::get_m()->get_Plr()->p_sdl.y - enem->e_sdl.y);
 	}
 }
+
+void charger::render(SDL_Rectf& sdl)
+{
+	SDL_Rect temp;
+	temp.x = round(sdl.x);
+	temp.y = round(sdl.y);
+	temp.w = round(sdl.w);
+	temp.h = round(sdl.h);
+	SDL_RenderCopy(Manager::get_m()->get_renderer(), e_texture, NULL, &temp);
+}

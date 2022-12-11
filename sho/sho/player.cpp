@@ -17,8 +17,8 @@ void player::init() {
 }
 
 void player::attack_delay_decrease() { 
-	if( attack_delay > -10 )
-		attack_delay--;
+	if( attack_delay > -10.0f )
+		attack_delay -= 60.0f * Manager::get_m()->getdeltaTime() ;
 }
 
 void player::attack() { 
@@ -58,4 +58,26 @@ void player::die() {
 	p_sdl.x = WINDOW_WIDTH /2 ;
 	p_sdl.y = WINDOW_HEIGHT + 10 ;
 	//★재시작 기능이 구현된 이후, R버튼 누르면 재시작된다는 텍스트 이미지
+}
+
+SDL_Rectf player::getCollisonRectf() {
+	SDL_Rectf temp;
+	temp.x = p_sdl.x + 12;
+	temp.y = p_sdl.y + 12;
+	temp.w = 20;
+	temp.h = 20;
+	return temp;
+}
+
+void player::render() {
+	SDL_Rect temp;
+	temp.x = round(this->p_sdl.x);
+	temp.y = round(this->p_sdl.y);
+	temp.w = round(this->p_sdl.w);
+	temp.h = round(this->p_sdl.h);
+	SDL_RenderCopy(Manager::get_m()->get_renderer(), texture, NULL, &temp);
+}
+
+void player::SetTexture(SDL_Texture* tex) {
+	texture = tex;
 }

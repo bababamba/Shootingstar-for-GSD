@@ -3,7 +3,7 @@
 using namespace std;
 
 class enemy;
-class SDL_Texture;
+struct SDL_Texture;
 struct enemy_type {
 protected:
 	int wh[2];	//width, height
@@ -16,6 +16,7 @@ public:
 	void init(SDL_Rectf* rect, int* max_hp);
 	virtual void move(enemy* enem);
 	virtual void how_to_fire(enemy* enem);
+	virtual void render(SDL_Rectf&) = 0;
 	SDL_Texture* get_texture();
 	int* get_wh();
 

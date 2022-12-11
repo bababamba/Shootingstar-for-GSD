@@ -59,3 +59,13 @@ void middle1::how_to_fire(enemy* enem) {
 
 	}
 }
+
+void middle1::render(SDL_Rectf& sdl)
+{
+	SDL_Rect temp;
+	temp.x = round(sdl.x);
+	temp.y = round(sdl.y);
+	temp.w = round(sdl.w);
+	temp.h = round(sdl.h);
+	SDL_RenderCopy(Manager::get_m()->get_renderer(), e_texture, NULL, &temp);
+}

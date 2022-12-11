@@ -50,3 +50,13 @@ void zigzag::how_to_fire(enemy* enem) {
 			enem->e_sdl.set_slope(-temp[0], temp[1]);
 	}
 }
+
+void zigzag::render(SDL_Rectf& sdl)
+{
+	SDL_Rect temp;
+	temp.x = round(sdl.x);
+	temp.y = round(sdl.y);
+	temp.w = round(sdl.w);
+	temp.h = round(sdl.h);
+	SDL_RenderCopy(Manager::get_m()->get_renderer(), e_texture, NULL, &temp);
+}

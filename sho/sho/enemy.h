@@ -1,11 +1,12 @@
 #pragma once
 #include "SDL_Rectf.h"
-#include "basic_enemy.h"
+#include "enemy_type.h"
 
 class enemy {
 private:
 	int hp;
 	int fire_delay[4];	//공격 딜레이, 강력한 적들은 2~4개 정도의 공격 방식을 가지므로 배열이다
+	float firedelaycheck = 0.0f;
 	bool has_item;
 
 	//적의 특징을 만드는데 사용할 다용도 변수 (Swiss Army variable)
@@ -18,11 +19,14 @@ public:
 	SDL_Rectf e_sdl;
 	//enemy();
 
+	void render();
 	void fire();
 	void move();
 	bool hit();
 	void die();
 	void set_type(enemy_type* para_type);
+	SDL_Rectf getCollisonRectf();
+	//bool CollisonTest(Bullet& );
 	enemy_type* get_type() { 
 		return e_type;
 	}

@@ -12,7 +12,12 @@ public:
 	void attack_delay_decrease();
 	void increse_attack_level(const int i);
 	void die();
+	void render();
+	void SetTexture(SDL_Texture*);
+	SDL_Rectf getCollisonRectf();
 private:
 	int attack_level;
-	int attack_delay;	
+	float attack_delay;	
+	SDL_Texture* texture;
+
 };

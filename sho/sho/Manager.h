@@ -20,12 +20,13 @@ struct zigzag;
 struct charger;
 struct middle1;
 struct BEEG;
+class Bullet;
+
 class Manager {
 public:
 	int amain(int argv, char** args);
 	//bool rectcol(SDL_Rectf a, SDL_Rectf b);
 	bool rectcolf(SDL_Rectf a, SDL_Rectf b);
-	bool rectcolp(SDL_Rectf a, SDL_Rectf b);
 	void init();
 	void render();
 	void close();
@@ -89,9 +90,9 @@ private:
 	BEEG* srct_BEEG;
 	//플레이어 혹은 상대방이 공격한다면, available bullets에서 pop한 Rect를 공격한 객체에 해당하는 list로 옮겨준다
 	//bullet이 화면 밖으로 나갔다면, 다시 availble_bullets에 push한다
-	stack<SDL_Rectf*> available_bullets;
-	vector<SDL_Rectf*> enemy_bullets;
-	vector<SDL_Rectf*> player_bullets;
+	stack<Bullet*> available_bullets;
+	vector<Bullet*> enemy_bullets;
+	vector<Bullet*> player_bullets;
 
 	stack<enemy*> available_enemy;
 	vector<enemy*> cur_enemy;
