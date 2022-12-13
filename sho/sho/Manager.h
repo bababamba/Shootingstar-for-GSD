@@ -20,7 +20,9 @@ struct zigzag;
 struct charger;
 struct middle1;
 struct BEEG;
+struct Fixed;
 class Bullet;
+class Boss1;
 
 class Manager {
 public:
@@ -34,8 +36,8 @@ public:
 	void bullet_set(float x, float y, float slope_x, float slope_y, int speed, bool is_players);
 	void enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code, bool item);
 	void item_set(float x, float y);
-	player* get_Plr() { 
-		return Plr; 
+	player* get_Plr() {
+		return Plr;
 	}
 	SDL_Renderer* get_renderer() {
 		return renderer;
@@ -46,7 +48,10 @@ public:
 	static Manager* get_m();
 
 	//추가 : 조대훈
-	
+	Boss1* boss1instance;
+	bool boss1battle = false;
+	player& getPlayer();
+
 	//deltaTime을 리턴
 	float getdeltaTime() { return deltaTime; }
 	//도착 지점을 인수로 받는 방향탄 생성 함수
@@ -88,6 +93,7 @@ private:
 	charger* srct_charger;
 	middle1* srct_middle1;
 	BEEG* srct_BEEG;
+	Fixed* srct_fixed;
 	//플레이어 혹은 상대방이 공격한다면, available bullets에서 pop한 Rect를 공격한 객체에 해당하는 list로 옮겨준다
 	//bullet이 화면 밖으로 나갔다면, 다시 availble_bullets에 push한다
 	stack<Bullet*> available_bullets;

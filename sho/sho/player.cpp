@@ -62,8 +62,8 @@ void player::die() {
 
 SDL_Rectf player::getCollisonRectf() {
 	SDL_Rectf temp;
-	temp.x = p_sdl.x + 12;
-	temp.y = p_sdl.y + 12;
+	temp.x = p_sdl.x + 22;
+	temp.y = p_sdl.y + 22;
 	temp.w = 20;
 	temp.h = 20;
 	return temp;

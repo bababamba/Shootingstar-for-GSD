@@ -57,6 +57,24 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="boss1.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="boss1_base.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="boss1_left.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="boss1_right.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="boss1_core.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="fixed_enemy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Manager.h">
@@ -93,6 +111,24 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="boss1.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="boss1_base.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="boss1_left.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="boss1_right.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="boss1_core.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="fixed_enemy.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

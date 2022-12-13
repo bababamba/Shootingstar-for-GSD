@@ -16,6 +16,9 @@
 #include "charger.h"
 #include "middle1.h"
 #include "BEEG.h"
+#include "fixed_enemy.h"
+#include "boss1.h"
+#include "boss1_base.h"
 #include "Stage_Reader.h"
 #include "player.h"
 #include "BulletVectorCalculator.h"
@@ -70,7 +73,7 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         Plr->init();
         Plr->SetTexture(texture);
         //총알 생성
-        for( int i = 0; i < 100; i++ ) {
+        for( int i = 0; i < 500; i++ ) {
             available_bullets.push(new Bullet);
             available_bullets.top()->init(-100, -100, 8, 8);
         }
@@ -85,6 +88,9 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         srct_charger = new charger(renderer);
         srct_middle1 = new middle1(renderer);
         srct_BEEG = new BEEG(renderer);
+        srct_fixed = new Fixed(renderer);
+        boss1instance = new Boss1(renderer);
+        boss1instance->set_type(new boss1_base(renderer));
         //item 생성
         for( int i = 0; i < 3; i++ ) {
             available_items.push(new SDL_Rectf());
@@ -193,6 +199,9 @@ void Manager::render() {
     for( int i = 0; i < size; i++ ) {
         cur_enemy[i]->render();
     }
+    //보스 출력
+    if (boss1battle)
+        boss1instance->render();
     //적 총알 출력
     size = enemy_bullets.size();
     for( int i = 0; i < size; i++ ) {
@@ -269,6 +278,9 @@ void Manager::enemy_set(float x, float y, float slope_x, float slope_y, int enem
         case 6:
             cur_enemy.back()->set_type(srct_BEEG);
             break;
+        case 7:
+            cur_enemy.back()->set_type(srct_fixed);
+            break;
     }    
     cur_enemy.back()->e_sdl.x = x - cur_enemy.back()->get_type()->get_wh()[0] / 2;
     cur_enemy.back()->e_sdl.y = y - cur_enemy.back()->get_type()->get_wh()[1] / 2;
@@ -285,6 +297,10 @@ void Manager::item_set(float x, float y) {
     cur_items.push_back(available_items.top());
     cur_items.back()->init(x, y, 32, 32, 0, 1);
     available_items.pop();
+}
+
+player& Manager::getPlayer() {
+    return *Plr;
 }
 
 void Manager::stage_load() { 
@@ -425,7 +441,7 @@ int Manager::amain(int argv, char** args) {
                 collision_chk = false;
                 player_bullets[i]->move();
                 for( int j = 0; j < size2; j++ ) {
-                    if( rectcolf(player_bullets[i]->getCollisonRectf(), cur_enemy[j]->e_sdl) ) {
+                    if( rectcolf(player_bullets[i]->getCollisonRectf(), cur_enemy[j]->getCollisonRectf()) ) {
                         collision_chk = true;
                         if( cur_enemy[j]->hit() ) { 
                             available_enemy.push(cur_enemy[j]);
@@ -441,6 +457,31 @@ int Manager::amain(int argv, char** args) {
                     i--; size--;
                 }
             }
+            //첫스테이지 보스전 처리
+            if (boss1battle) {
+                //is_enemy_generating = false;
+                //보스 이동, 발사 처리
+                boss1instance->move();
+                boss1instance->fire();
+                collision_chk = false;
+                size = player_bullets.size();
+
+                for (int i = 0; i < size; i++) {
+                    if (boss1instance->CollisionTest(player_bullets[i]->getCollisonRectf())) {
+                        available_bullets.push(player_bullets[i]);
+                        player_bullets.erase(player_bullets.begin() + i);
+                        i--; size--;
+                        collision_chk = true;
+                    }
+                }
+
+                //클리어 처리
+                if (collision_chk && boss1instance->hit())
+                {
+                    //보스 처치 시(=클리어 시) 처리를 여기서 하면 됨
+                }
+            }
+
             //적 총알 이동, 플레이어가 맞았는지 확인
             size = enemy_bullets.size();
             for( int i = 0; i < size; i++ ) {

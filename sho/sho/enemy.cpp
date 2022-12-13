@@ -34,7 +34,6 @@ bool enemy::hit() {
 }
 
 void enemy::die() { 
-	//e_type->die();
 	e_type = nullptr;
 	if( has_item ) { 
 		Manager::get_m()->item_set(e_sdl.x, e_sdl.y);
@@ -58,9 +57,11 @@ void enemy::set_type(enemy_type* para_type) {
 }
 
 SDL_Rectf enemy::getCollisonRectf() {
-	return e_sdl;
+	SDL_Rectf temp = e_sdl;
+	float *coll =  e_type->getCollision();
+	temp.x += coll[0];
+	temp.y += coll[1];
+	temp.w += coll[2];
+	temp.h += coll[3];
+	return temp;
 }
-
-//bool enemy::CollisonTest(SDL_Rectf sdl) {
-//	
-//}

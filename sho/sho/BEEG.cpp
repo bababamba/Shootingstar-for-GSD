@@ -1,10 +1,11 @@
 #pragma once
 #include "SDL_Rectf.h"
-#include "enemy_type.h"
-#include "Manager.h"
-#include "BEEG.h"
 #include "enemy.h"
 #include "player.h"
+#include "BEEG.h"
+#include "Manager.h"
+//#include "enemy_type.h"
+
 
 BEEG::BEEG(SDL_Renderer* M_renderer) {
 	wh[0] = 256;

@@ -144,11 +144,17 @@
   <ItemGroup>
     <ClCompile Include="basic_enemy.cpp" />
     <ClCompile Include="BEEG.cpp" />
+    <ClCompile Include="boss1.cpp" />
+    <ClCompile Include="boss1_base.cpp" />
+    <ClCompile Include="boss1_core.cpp" />
+    <ClCompile Include="boss1_left.cpp" />
+    <ClCompile Include="boss1_right.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletVectorCalculator.cpp" />
     <ClCompile Include="charger.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy_type.cpp" />
+    <ClCompile Include="fixed_enemy.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="middle1.cpp" />
     <ClCompile Include="player.cpp" />
@@ -160,11 +166,17 @@
   <ItemGroup>
     <ClInclude Include="basic_enemy.h" />
     <ClInclude Include="BEEG.h" />
+    <ClInclude Include="boss1.h" />
+    <ClInclude Include="boss1_base.h" />
+    <ClInclude Include="boss1_left.h" />
+    <ClInclude Include="boss1_right.h" />
+    <ClInclude Include="boss1_core.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletVectorCalculator.h" />
     <ClInclude Include="charger.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemy_type.h" />
+    <ClInclude Include="fixed_enemy.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="middle1.h" />
     <ClInclude Include="player.h" />

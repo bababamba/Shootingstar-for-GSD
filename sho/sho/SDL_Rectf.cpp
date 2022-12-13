@@ -1,5 +1,6 @@
-#include "SDL_Rectf.h"
 #include "Manager.h"
+#include "SDL_Rectf.h"
+
 
 void SDL_Rectf::linear_move() {
 	float deltaTime = Manager::get_m()->getdeltaTime();

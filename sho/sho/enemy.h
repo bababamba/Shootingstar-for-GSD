@@ -3,7 +3,7 @@
 #include "enemy_type.h"
 
 class enemy {
-private:
+protected:
 	int hp;
 	int fire_delay[4];	//공격 딜레이, 강력한 적들은 2~4개 정도의 공격 방식을 가지므로 배열이다
 	float firedelaycheck = 0.0f;
@@ -26,7 +26,6 @@ public:
 	void die();
 	void set_type(enemy_type* para_type);
 	SDL_Rectf getCollisonRectf();
-	//bool CollisonTest(Bullet& );
 	enemy_type* get_type() { 
 		return e_type;
 	}

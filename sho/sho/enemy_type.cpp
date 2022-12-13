@@ -20,6 +20,10 @@ int* enemy_type::get_wh() {
 	return wh;
 }
 
+float* enemy_type::getCollision() {
+	return collision_xywh;
+}
+
 SDL_Texture* enemy_type::get_texture() {
 	return e_texture;
 }
