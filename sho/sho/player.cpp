@@ -57,7 +57,7 @@ void player::increse_attack_level(const int i) {
 void player::die() { 
 	p_sdl.x = WINDOW_WIDTH /2 ;
 	p_sdl.y = WINDOW_HEIGHT + 10 ;
-	//★재시작 기능이 구현된 이후, R버튼 누르면 재시작된다는 텍스트 이미지
+	Manager::get_m()->show_text(2);
 }
 
 SDL_Rectf player::getCollisonRectf() {

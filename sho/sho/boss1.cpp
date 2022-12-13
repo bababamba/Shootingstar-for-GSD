@@ -10,9 +10,9 @@ Boss1::Boss1(SDL_Renderer* M_renderer) {
 	right_parts = new boss1_right(M_renderer);
 	core_parts = new boss1_core(M_renderer);
 
-	lefthp = 20;
-	righthp = 15;
-	corehp = 30;
+	lefthp = 50;
+	righthp = 40;
+	corehp = 60;
 
 	left_pos[0] = 100;
 	left_pos[1] = 100;
@@ -22,8 +22,8 @@ Boss1::Boss1(SDL_Renderer* M_renderer) {
 	core_pos[1] = 120;
 
 	e_sdl.x = 100;
-	e_sdl.y = 100;
-	e_sdl.set_slope(0.0f, 0.0f);
+	e_sdl.y = -300;
+	e_sdl.set_slope(0, 0);
 
 	permit_fire = false;
 }
@@ -101,7 +101,10 @@ bool Boss1::hit() {
 }
 
 void Boss1::die() {
-	
+	Manager::get_m()->show_text(3);
+	Manager::get_m()->cleard = true;
+	e_sdl.y = 99;
+	permit_fire = false;
 	//클리어 코드를 넣자
 }
 

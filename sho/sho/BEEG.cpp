@@ -10,7 +10,7 @@
 BEEG::BEEG(SDL_Renderer* M_renderer) {
 	wh[0] = 256;
 	wh[1] = 256;
-	max_hp = 80;
+	max_hp = 90;
 	speed = 235;
 	e_texture = SDL_CreateTextureFromSurface(M_renderer, IMG_Load("image/enemy_basic.png"));
 }
@@ -38,7 +38,7 @@ void BEEG::move(enemy* enem) {
 		enem->set_SA_bool(true);
 		enem->e_sdl.set_slope(1, 0);
 	}
-	cout << enem->get_SA_var1() << endl;
+	//cout << enem->get_SA_var1() << endl;
 	
 	
 	

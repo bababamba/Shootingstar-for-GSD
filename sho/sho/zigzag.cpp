@@ -10,7 +10,7 @@
 zigzag::zigzag(SDL_Renderer* M_renderer) {
 	wh[0] = 64;
 	wh[1] = 64;
-	max_hp = 2;
+	max_hp = 3;
 	speed = 353;
 	e_texture = SDL_CreateTextureFromSurface(M_renderer, IMG_Load("image/enemy_zigzag.png"));
 }

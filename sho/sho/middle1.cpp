@@ -10,7 +10,7 @@
 middle1::middle1(SDL_Renderer* M_renderer) {
 	wh[0] = 128;
 	wh[1] = 128;
-	max_hp = 30;
+	max_hp = 60;
 	speed = 235;
 	e_texture = SDL_CreateTextureFromSurface(M_renderer, IMG_Load("image/enemy_middle1.png"));
 }

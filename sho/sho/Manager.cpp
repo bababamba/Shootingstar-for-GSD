@@ -67,6 +67,10 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
         ebultexture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/enemy_bullet.png"));
         item_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/item.png"));
         back_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/background1.png"));
+        title_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/sho_title.png"));
+        tutorial_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/sho_tutorial.png"));
+        gameover_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/sho_gameover.png"));
+        clear_texture = SDL_CreateTextureFromSurface(renderer, IMG_Load("image/sho_clear.png"));
         //플레이어 생성
         player* temp_p = new player();
         Plr = temp_p;
@@ -103,6 +107,23 @@ Manager::Manager(const char* title, int xpos, int ypos, int height, int width, i
             background.back()->init(120 * (i-1), (i * i % 10) * 90, 8, 8, 0, 1);
             background.back()->set_speed((i * 77) % 60);
         }
+        //텍스트 생성
+            // 0=title
+        text.push_back(new SDL_Rectf());
+        text.back()->init(0, 1000, 720, 180, 0, 1);
+        text.back()->set_speed(60);
+            // 1=tutorial
+        text.push_back(new SDL_Rectf());
+        text.back()->init(0, 1000, 720, 180, 0, 1);
+        text.back()->set_speed(60);
+            // 2=gameover
+        text.push_back(new SDL_Rectf());
+        text.back()->init(0, 1000, 720, 240, 0, 0);
+        text.back()->set_speed(0);
+            // 3=clear
+        text.push_back(new SDL_Rectf());
+        text.back()->init(0, 1000, 720, 190, 0, 0);
+        text.back()->set_speed(0);        
         //스테이지 생성 관련
         stage_load();
         //초기화
@@ -159,6 +180,11 @@ void Manager::init() {
         cur_items.erase(cur_items.begin() + i);
         i--; size--;
     }
+    //텍스트 초기화
+    text[0]->y = 240;
+    text[1]->y = 0;
+    text[2]->y = 1000;
+    text[3]->y = 1000;
     //스테이지 생성 관련
     cur_enemy_num = 0;
     is_enemy_generating = true;
@@ -193,6 +219,26 @@ void Manager::render() {
         temp.w = round(background[i]->w);
         temp.h = round(background[i]->h);
         SDL_RenderCopy(renderer, back_texture, NULL, &temp);
+    }
+    //텍스트 출력
+    size = text.size();
+    SDL_Texture* temp_texture = nullptr;
+    for( int i = 0; i < size; i++ ) { 
+        temp.x = round(text[i]->x);
+        temp.y = round(text[i]->y);
+        temp.w = round(text[i]->w);
+        temp.h = round(text[i]->h);
+        switch( i ) {
+            case 0:
+                temp_texture = title_texture; break;
+            case 1:
+                temp_texture = tutorial_texture; break;
+            case 2:
+                temp_texture = gameover_texture; break;
+            case 3:
+                temp_texture = clear_texture; break;
+        }
+        SDL_RenderCopy(renderer, temp_texture, NULL, &temp);
     }
     //적 출력
     size = cur_enemy.size();
@@ -299,6 +345,15 @@ void Manager::item_set(float x, float y) {
     available_items.pop();
 }
 
+void Manager::show_text(int ind) { 
+    for( int i = 0; i < 4; i++ ) { 
+        if( i == ind )
+            text[i]->y = 480;
+        else
+            text[i]->y = 1000;
+    }
+}
+
 player& Manager::getPlayer() {
     return *Plr;
 }
@@ -338,6 +393,11 @@ int Manager::amain(int argv, char** args) {
                     s->speed = (s->speed + 14) % 40;
                 }
             }
+            //텍스트 이동, 0번 타이틀/1번 튜토리얼만 화면 내에 있는 동안 이동한다
+            if( text[0]->y < 960 )
+                text[0]->linear_move();
+            if( text[1]->y < 960 )
+                text[1]->linear_move();
             //플레이어 입력
             while( SDL_PollEvent(&event) ) {
                 switch( event.type ) {
@@ -462,6 +522,7 @@ int Manager::amain(int argv, char** args) {
                 //is_enemy_generating = false;
                 //보스 이동, 발사 처리
                 boss1instance->move();
+                if( !boss1instance->permit_fire && boss1instance->e_sdl.y > 99 ) boss1instance->permit_fire = true;
                 boss1instance->fire();
                 collision_chk = false;
                 size = player_bullets.size();
@@ -532,6 +593,7 @@ int Manager::amain(int argv, char** args) {
                     */
                     cur_enemy_num++;
                     if( cur_enemy_num >= last_enemy_num ) {
+                        boss1battle = true;
                         is_enemy_generating = false;
                     }
                 }

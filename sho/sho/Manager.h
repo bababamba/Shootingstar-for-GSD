@@ -36,6 +36,7 @@ public:
 	void bullet_set(float x, float y, float slope_x, float slope_y, int speed, bool is_players);
 	void enemy_set(float x, float y, float slope_x, float slope_y, int enemy_code, bool item);
 	void item_set(float x, float y);
+	void show_text(int ind);
 	player* get_Plr() {
 		return Plr;
 	}
@@ -50,6 +51,7 @@ public:
 	//추가 : 조대훈
 	Boss1* boss1instance;
 	bool boss1battle = false;
+	bool cleard = false;
 	player& getPlayer();
 
 	//deltaTime을 리턴
@@ -86,6 +88,10 @@ private:
 	SDL_Texture* ebultexture;
 	SDL_Texture* item_texture;
 	SDL_Texture* back_texture;
+	SDL_Texture* title_texture;
+	SDL_Texture* tutorial_texture;
+	SDL_Texture* gameover_texture;
+	SDL_Texture* clear_texture;
 
 	//적 종류, enemy를 배치할 때 set_type에 매개변수로 집어넣어 사용한다
 	basic* srct_basic;
@@ -107,6 +113,7 @@ private:
 	vector<SDL_Rectf*> cur_items;
 
 	vector<SDL_Rectf*> background;
+	vector<SDL_Rectf*> text;
 
 	player* Plr;
 	bool pgun = false;
