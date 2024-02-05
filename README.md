@@ -29,5 +29,31 @@ Github
 
 ## 5. 프로젝트 구조
 ```
-
+    ├─3rdparty
+    │  ├─SDL2-2.24.0
+    │  │  ├─cmake
+    │  │  ├─docs
+    │  │  ├─include
+    │  │  └─lib
+    │  │      ├─x64
+    │  │      └─x86
+    │  └─SDL2_image-2.6.2
+    │      ├─cmake
+    │      ├─include
+    │      └─lib
+    │          ├─x64
+    │          │  └─optional
+    │          └─x86
+    │              └─optional
+    ├─sho
+    │  ├─image
+    │  ├─rapidjson
+    │  │  ├─error
+    │  │  ├─internal
+    │  │  └─msinttypes
+    │  └─x64
+    │      └─Debug
+    │          └─sho.tlog
+    └─x64
+        └─Debug
 ```
